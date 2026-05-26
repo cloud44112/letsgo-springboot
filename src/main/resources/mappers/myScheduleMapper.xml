@@ -251,7 +251,7 @@
     </select>
 
     <select id="checkMyScheduleIdExists" parameterType="String" resultType="int">
-        SELECT COUNT(*) FROM MY_SCHEDULE WHERE MY_SCHEDULE_ID = #{id}
+        SELECT COUNT(MY_SCHEDULE_ID) FROM MY_SCHEDULE WHERE MY_SCHEDULE_ID = #{id}
     </select>
 
     <insert id="insertMyScheduleRow" parameterType="map">
@@ -285,7 +285,7 @@
     </insert>
 
     <select id="isScheduleOwnedByUser" parameterType="map" resultType="int">
-        SELECT COUNT(*) FROM MY_SCHEDULE WHERE MY_SCHEDULE_ID = #{scheduleId} AND USER_ID = #{userId}
+        SELECT COUNT(MY_SCHEDULE_ID) FROM MY_SCHEDULE WHERE MY_SCHEDULE_ID = #{scheduleId} AND USER_ID = #{userId}
     </select>
 
     <select id="listMyScheduleIdAndTitle" parameterType="String" resultType="map">
