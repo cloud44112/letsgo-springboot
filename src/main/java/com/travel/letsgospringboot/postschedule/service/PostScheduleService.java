@@ -14,27 +14,6 @@ public class PostScheduleService {
     @Autowired
     PostScheduleRepository postScheduleRepository;
 
-//    public List<PostScheduleTO> getPostScheduleList(String sortOrder, String keyword) {
-//        if (sortOrder == null || sortOrder.trim().isEmpty()) {
-//            sortOrder = "latest";
-//        }
-//        if (keyword == null || keyword.trim().isEmpty()) {
-//            switch (sortOrder) {
-//                case "like":  return getPostScheduleListLike();
-//                case "view":  return getPostScheduleListView();
-//                case "title": return getPostScheduleListTitle();
-//                default:      return getPostScheduleListLatest();
-//            }
-//        } else {
-//            switch (sortOrder) {
-//                case "like":  return getPostScheduleListSearchLike(keyword);
-//                case "view":  return getPostScheduleListSearchView(keyword);
-//                case "title": return getPostScheduleListSearchTitle(keyword);
-//                default:      return getPostScheduleListSearchLatest(keyword);
-//            }
-//        }
-//    }
-
     public List<PostScheduleTO> getPostScheduleListLike() {
         return postScheduleRepository.getPostScheduleListLike();
     }
@@ -59,27 +38,6 @@ public class PostScheduleService {
     public List<PostScheduleTO> getPostScheduleListSearchLatest(String keyword) {
         return postScheduleRepository.getPostScheduleListSearchLatest(keyword);
     }
-
-//    public List<PostScheduleTO> getUserPostScheduleList(String userId, String sortOrder, String keyword) {
-//        if (sortOrder == null || sortOrder.trim().isEmpty()) {
-//            sortOrder = "latest";
-//        }
-//        if (keyword == null || keyword.trim().isEmpty()) {
-//            switch (sortOrder) {
-//                case "like":  return getUserPostScheduleListLike(userId);
-//                case "view":  return getUserPostScheduleListView(userId);
-//                case "title": return getUserPostScheduleListTitle(userId);
-//                default:      return getUserPostScheduleListLatest(userId);
-//            }
-//        } else {
-//            switch (sortOrder) {
-//                case "like":  return getUserPostScheduleListSearchLike(userId, keyword);
-//                case "view":  return getUserPostScheduleListSearchView(userId, keyword);
-//                case "title": return getUserPostScheduleListSearchTitle(userId, keyword);
-//                default:      return getUserPostScheduleListSearchLatest(userId, keyword);
-//            }
-//        }
-//    }
 
     public List<PostScheduleTO> getUserPostScheduleListLike(String userId) {
         return postScheduleRepository.getUserPostScheduleListLike(userId);
