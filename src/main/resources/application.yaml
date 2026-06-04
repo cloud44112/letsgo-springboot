@@ -9,3 +9,5 @@ spring:
 
 mybatis:
   mapper-locations: classpath:mappers/placeMapper.xml
+server:
+  port: 5531

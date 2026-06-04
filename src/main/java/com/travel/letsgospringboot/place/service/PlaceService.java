@@ -59,7 +59,6 @@ public class PlaceService {
     public List<PlaceVO> getPlaceByAddr(String placeType, String addrPattern) {
         Map<String, Object> params = new HashMap<>();
         params.put("placeType", placeType);
-        // Automatically wrap in wildcards if not already done
         String pattern = addrPattern.contains("%") ? addrPattern : "%" + addrPattern + "%";
         params.put("addrPattern", pattern);
         return placeMapper.getPlaceByAddr(params);

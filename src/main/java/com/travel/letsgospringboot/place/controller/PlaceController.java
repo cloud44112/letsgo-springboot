@@ -15,12 +15,21 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class PlaceController {
 
-    private final PlaceService placeService;
+    private PlaceService placeService;
+
+    @GetMapping("/")
+    public String index(Model model) {
+        List<PlaceVO> list = placeService.searchPlaces("LEISURE", null, null, "title");
+
+        model.addAttribute("leisurePlaceList", list);
+
+        return "placeview/html/index";
+    }
 
 
     @GetMapping("/places/leisure")
-    @ResponseBody
-    public List<PlaceVO> leisurePage(
+    public String leisurePage(
+            Model model,
             @RequestParam(value = "category", required = false) String category,
             @RequestParam(value = "keyword", required = false) String keyword,
             @RequestParam(value = "sortOrder", defaultValue = "distance") String sortOrder) {
@@ -28,8 +37,14 @@ public class PlaceController {
         String sortBy = "popular".equalsIgnoreCase(sortOrder) ? "like" : "title";
         List<PlaceVO> list = placeService.searchPlaces("LEISURE", category, keyword, sortBy);
 
-        return list;
+
+        model.addAttribute("leisurePlaceList", list);
+        model.addAttribute("totalCount", list.size());
+
+        return "placeview/html/leisure";
     }
+
+
 
 
     @GetMapping("/places/restaurant")
@@ -45,7 +60,6 @@ public class PlaceController {
         return list;
     }
 
-
     @GetMapping("/places/stay")
     @ResponseBody
     public List<PlaceVO> stayPage(
@@ -59,7 +73,6 @@ public class PlaceController {
         return list;
     }
 
-
     @GetMapping("/placeLikeAjax")
     @ResponseBody
     public Map<String, Object> likePlace(
@@ -70,7 +83,7 @@ public class PlaceController {
         try {
             placeService.setPlaceLikeCount(placeId);
             int updatedCount = placeService.getPlaceLikeCount(placeType, placeId);
-            
+
             response.put("result", "success");
             response.put("likeCount", updatedCount);
         } catch (Exception e) {
@@ -78,6 +91,5 @@ public class PlaceController {
         }
         return response;
     }
+
 }
-
-
