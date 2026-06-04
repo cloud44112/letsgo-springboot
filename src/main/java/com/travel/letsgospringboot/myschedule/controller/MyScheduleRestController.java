@@ -45,4 +45,6 @@ public class MyScheduleRestController {
                 ? myScheduleService.getMyScheduleListAllByTitle(userId)
                 : myScheduleService.getMyScheduleListAllByDate(userId);
     }
+
+
 }

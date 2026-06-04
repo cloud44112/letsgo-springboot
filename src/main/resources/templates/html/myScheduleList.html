@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:c="http://www.w3.org/1999/XSL/Transform">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <link rel="stylesheet" th:href="@{/css/myScheduleList.css}">
     <script th:src="@{/js/myScheduleList.js}" defer></script>
@@ -7,25 +7,22 @@
 </head>
 <body>
 
-
+<header class="site-header">
+    <div class="logo">
+        <a href="/" title="Let's GO! 홈">
+            <img src="/img/logo.png" alt="Let's GO!" class="site-logo"/>
+        </a>
+    </div>
+    <ul class="menu">
+        <li><a href="/">홈</a></li>
+        <li><a href="/leisureUI">플레이스 조회</a></li>
+        <li><a href="/postScheduleListUI">일정게시판</a></li>
+        <li><a href="/myScheduleListUI">내일정</a></li>
+        <li class="user-name">강X회 님</li>
+        <li><a href="/logoutAction">로그아웃</a></li>
+    </ul>
+</header>
 <main>
-
-    <header>
-        <div class="logo">
-            <a href="#" title="Let's GO! 홈">
-                <img src="#" alt="Let's GO!" class="site-logo"/>
-            </a>
-        </div>
-        <ul class="menu"
-            style="list-style: none; display: flex; padding: 0; margin: 0;">
-            <li><a href="">홈</a></li>
-            <li><a href="">플레이스 조회</a></li>
-            <li><a href="">일정게시판</a></li>
-            <li><a href="">내일정</a></li>
-
-        </ul>
-
-    </header>
     <div class="layout-wrapper">
         <aside class="sidebar">
             <nav>

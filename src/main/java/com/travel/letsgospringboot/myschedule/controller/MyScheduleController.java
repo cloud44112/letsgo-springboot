@@ -25,6 +25,13 @@ public class MyScheduleController {
         return "myScheduleList";
     }
 
+    @GetMapping("/detail/{scheduleId}")
+    public String myScheduleDetail(Model model, @PathVariable String scheduleId) {
+        List<RouteScheduleVO> scheduleRoute = myScheduleService.getScheduleRoute(scheduleId);
+        model.addAttribute("scheduleRoute", scheduleRoute);
+        return "myScheduleDetail";
+    }
+
     @GetMapping("/idAndTitle")
     @ResponseBody
     public List<ScheduleSummaryVO> listMyScheduleIdAndTitle(@RequestParam String userId) {
