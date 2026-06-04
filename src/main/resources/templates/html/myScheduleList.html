@@ -28,18 +28,10 @@
     </header>
     <div class="layout-wrapper">
         <aside class="sidebar">
-            <div>
-                <div>
-                    <a href="myschedule">
-                        <button>전체 일정</button>
-                    </a>
-                </div>
-                <div>
-                    <a href="myscheduleshared">
-                        <button>공유된 일정</button>
-                    </a>
-                </div>
-            </div>
+            <nav>
+                <button class="nav-btn active" data-filter="all">전체 일정</button>
+                <button class="nav-btn" data-filter="shared">공유된 일정</button>
+            </nav>
         </aside>
 
         <div class="main-content">
@@ -71,7 +63,7 @@
                         </a>
                         <figcaption class="figure-caption" th:text="${item.placeTitle}">금원 수원 수영장</figcaption>
                         <div th:text="${#strings.substring(item.startAt, 0, 10)} ">2026-04-16
-                        <span th:text="' 📍'+ ${item.addr1}">📍경기 안양</span>
+                            <span th:text="' 📍'+ ${item.addr1}">📍경기 안양</span>
                         </div>
                     </figure>
                 </div>

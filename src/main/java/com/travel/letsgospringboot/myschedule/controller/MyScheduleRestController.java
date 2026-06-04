@@ -15,22 +15,34 @@ public class MyScheduleRestController {
     private final MyScheduleService myScheduleService;
 
     @GetMapping("/list")
-    public List<MyScheduleVO> getMyScheduleList(@RequestParam(required = true) String userId, @RequestParam(required = false) String sortType
-    ,@RequestParam boolean isShared, @RequestParam(required = false) String keyword ) {
-        List<MyScheduleVO> list;
+    public List<MyScheduleVO> getMyScheduleList(
+            @RequestParam String userId,
+            @RequestParam(defaultValue = "") String searchTitle,
+            @RequestParam(defaultValue = "date") String sortOrder,
+            @RequestParam(defaultValue = "false") boolean isShared) {
 
-        if (sortType.equals("title")) {
-            if (isShared) {
-                return myScheduleService.getMyScheduleListSearchSharedByTitle(userId, keyword);
-            } else
-                list = myScheduleService.getMyScheduleListSearchByTitle(userId, keyword);
-        } else {
-            if (isShared) {
-                return myScheduleService.getMyScheduleListSearchSharedByDate(userId, keyword);
-            } else
-                list = myScheduleService.getMyScheduleListSearchByDate(userId, keyword);
+        boolean isSortTitle = "title".equals(sortOrder);
+        boolean hasKeyword = !searchTitle.isEmpty();
 
+        if (isShared) {
+            if (hasKeyword) {
+                return isSortTitle
+                        ? myScheduleService.getMyScheduleListSearchSharedByTitle(userId, searchTitle)
+                        : myScheduleService.getMyScheduleListSearchSharedByDate(userId, searchTitle);
+            }
+            return isSortTitle
+                    ? myScheduleService.getMyScheduleListSharedByTitle(userId)
+                    : myScheduleService.getMyScheduleListSharedByDate(userId);
         }
-        return list;
+
+        if (hasKeyword) {
+            return isSortTitle
+                    ? myScheduleService.getMyScheduleListSearchByTitle(userId, searchTitle)
+                    : myScheduleService.getMyScheduleListSearchByDate(userId, searchTitle);
+        }
+
+        return isSortTitle
+                ? myScheduleService.getMyScheduleListAllByTitle(userId)
+                : myScheduleService.getMyScheduleListAllByDate(userId);
     }
 }
