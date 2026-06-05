@@ -23,17 +23,19 @@ public class SecurityConfig {
 
         //비로그인
         http.authorizeHttpRequests(auth ->
-                auth.requestMatchers("/", "/user/login", "/user/signUp").permitAll()
-                        .anyRequest().authenticated());
+                auth.requestMatchers("/", "/user/loginView", "/user/signUpView", "/user/signUp").permitAll()
+                        .requestMatchers("/user/**").authenticated()
+                        .anyRequest().permitAll());
 
         //로그인
         http.formLogin(form
-                        -> form.loginPage("/user/login")
+                        -> form.loginPage("/user/loginView")
                         .loginProcessingUrl("/login")
                         .usernameParameter("userID")
                         .passwordParameter("password")
-                        .failureUrl("/user/login?error=true")
+                        .failureUrl("/user/loginView?error=true")
                         .defaultSuccessUrl("/user/user")
+                        .permitAll()
         );
         return http.build();
     }
