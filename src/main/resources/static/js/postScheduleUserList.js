@@ -1,14 +1,14 @@
 let searchPostSchedule = document.querySelector("#searchPostSchedule");
 if (searchPostSchedule)
     searchPostSchedule.addEventListener("click", fetchSchedules);
-let sortSelect = document.querySelector("[name='sortOrder']");
+let sortSelect = document.querySelector("#sortOrder");
 if (sortSelect)
     sortSelect.addEventListener("change", fetchSchedules);
 
 function fetchSchedules(){
-    const userId = document.querySelector("[name='userId']").value;
-    const sortOrder = document.querySelector("[name='sortOrder']").value;
-    const searchTitle = document.querySelector("[name='searchTitle']").value;
+    const userId = document.querySelector("#userId").value;
+    const sortOrder = document.querySelector("#sortOrder").value;
+    const searchTitle = document.querySelector("#searchTitle").value;
     fetch(`/postschedule/api/mylist?userId=${userId}&sortOrder=${sortOrder}&keyword=${searchTitle}`, {
         method: "get",
         headers: {

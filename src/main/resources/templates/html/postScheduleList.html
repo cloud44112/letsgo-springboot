@@ -6,22 +6,36 @@
     <meta charset="UTF-8"/>
 </head>
 <body>
+<main>
+    <header>
+        <div class="logo">
+            <a href="#" title="Let's GO! 홈">
+                <img src="#" alt="Let's GO!" class="site-logo"/>
+            </a>
+        </div>
+        <ul class="menu"
+            style="list-style: none; display: flex; padding: 0; margin: 0;">
+                <li><a href="">홈</a></li>
+                <li><a href="">플레이스 조회</a></li>
+                <li><a href="">일정게시판</a></li>
+                <li><a href="">내일정</a></li>
+        </ul>
+    </header>
+    <div class="layout-wrapper">
 
-<div class="layout-wrapper">
-    <main>
         <div class="content-container">
             <div class="content-left">
                 <div class="search-area">
-                        <input type="text" placeholder="장소 이름이나 게시물 이름을 검색하세요" name = "searchTitle"/>
+                        <input type="text" placeholder="장소 이름이나 게시물 이름을 검색하세요" id="searchTitle"/>
                         <button type="button" id="searchPostSchedule">
                             검색하기
                         </button>
                         <div class="sort-area">
-                            <select name="sortOrder" value="${param.sortOrder}" >
-                                <option value="latest" ${param.sortOrder == 'latest' ? 'selected' : ''}>날짜순</option>
-                                <option value="title" ${param.sortOrder == 'title' ? 'selected' : ''}>이름순</option>
-                                <option value="like" ${param.sortOrder == 'like' ? 'selected' : ''}>좋아요순</option>
-                                <option value="view" ${param.sortOrder == 'view' ? 'selected' : ''}>조회순</option>
+                            <select id="sortOrder">
+                                <option value="latest">날짜순</option>
+                                <option value="title">이름순</option>
+                                <option value="like">좋아요순</option>
+                                <option value="view">조회순</option>
                             </select>
                         </div>
                 </div>
@@ -33,9 +47,7 @@
 
         <div class="container" id="scheduleListContainer">
             <figure class="figure" th:each="postSchedule : ${list}">
-                    <div th:text="${postSchedule.title}">
-                        일정제목
-                    </div>
+                    <div th:text="${postSchedule.title}">일정제목</div>
 
                     <a th:href="@{'/postschedule/' + ${postSchedule.postId} + '/route'}" class="box-placeholder">
                         <img th:src="${postSchedule.firstImage}" alt="일정 이미지" class="box-placeholder">
@@ -60,9 +72,6 @@
                 		주우우우소
                         </span>
                 	</span>
-                        <span>
-
-                    </span>
                     </div>
                 <div>👤 <span th:text="${postSchedule.isAnonymous == 1 ? '익명' : postSchedule.userName}">이름</span></div>
                 </figure>

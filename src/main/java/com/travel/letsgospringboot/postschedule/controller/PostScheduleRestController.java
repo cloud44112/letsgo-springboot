@@ -22,7 +22,6 @@ public class PostScheduleRestController {
         if (sortOrder == null || sortOrder.trim().isEmpty()) {
             sortOrder = "latest";
         }
-        System.out.println(sortOrder + keyword);
         if (keyword == null || keyword.trim().isEmpty()) {
             switch (sortOrder) {
                 case "like":
