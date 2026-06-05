@@ -4,6 +4,7 @@ const saveTitleBtn = document.getElementById("saveTitleBtn");
 const addVisitBtn  = document.getElementById("addVisitBtn");
 const contentRight = document.querySelector("#contentRight");
 const sidebarLinks = document.querySelectorAll(".sidebar-link");
+const deleteBtn = document.querySelector("#deleteBtn");
 const dateEditBtn = document.querySelector("#dateEditBtn");
 const dateEditForm = document.querySelector("#dateEditForm");
 const dateConfirmBtn = document.querySelector("#dateConfirmBtn");
@@ -12,6 +13,11 @@ const startAtInput = document.querySelector("#startAtInput");
 const companionBtn = document.querySelector("#companionBtn");
 const scheduleId = location.pathname.split("/").filter(Boolean)[2];
 const PANELS = ["route", "budget", "todo", "companion"];
+
+deleteBtn.addEventListener("click", () => {
+    deleteMySchedule(scheduleId)
+    location.replace("/myschedule/list");
+});
 
 function readTitle() {
     return document.getElementById("scheduleTitleInput").value.trim();
@@ -34,9 +40,9 @@ function readBudgetItems() {
 }
 
 function readSavedBudget() {
-    const el = document.querySelector("#budgetData");
+    const data = document.querySelector("#budgetData");
     try {
-        return JSON.parse(el?.textContent?.trim() || "{}");
+        return JSON.parse(data?.textContent?.trim() || "{}");
     } catch (e) {
         return {};
     }
@@ -88,7 +94,17 @@ if (sortableList && typeof Sortable !== "undefined") {
 function deleteVisit(visitId) {
     if (!confirm("이 항목을 삭제하시겠습니까?")) return;
 
-    fetch(`myschedule/api/visit/${visitId}`, {
+    fetch(`/myschedule/api/visit/${visitId}`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" }
+    })
+        .then(res => res.json())
+        .catch(err => console.error("fetch 오류:", err));
+}
+
+function deleteMySchedule(myScheduleId){
+    if (!confirm("이 항목을 삭제하시겠습니까?")) return;
+    fetch(`/myschedule/api/${myScheduleId}`, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" }
     })

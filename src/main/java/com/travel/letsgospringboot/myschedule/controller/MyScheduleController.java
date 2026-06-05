@@ -27,11 +27,8 @@ public class MyScheduleController {
 
     @GetMapping("/detail/{scheduleId}")
     public String myScheduleDetail(Model model, @PathVariable String scheduleId) {
-        model.addAttribute("scheduleTitle", myScheduleService.getScheduleTitle(scheduleId));
-        model.addAttribute("startAt", myScheduleService.getStartAt(scheduleId));
+        model.addAttribute("schedule", myScheduleService.getScheduleDetail(scheduleId));
         model.addAttribute("scheduleRoute", myScheduleService.getScheduleRoute(scheduleId));
-        model.addAttribute("budgetDetail", myScheduleService.getBudgetDetail(scheduleId));
-        model.addAttribute("todoDetail", myScheduleService.getTodoDetail(scheduleId));
         return "myScheduleDetail";
     }
 
@@ -178,11 +175,7 @@ public class MyScheduleController {
                 scheduleId, scheduleTitle, startAt, budgetDetail, todoDetail, userId, isShared);
     }
 
-    @DeleteMapping("/{scheduleId}")
-    @ResponseBody
-    public boolean deleteMySchedule(@PathVariable String scheduleId) {
-        return myScheduleService.deleteMySchedule(scheduleId);
-    }
+
 
     @DeleteMapping("/list")
     @ResponseBody

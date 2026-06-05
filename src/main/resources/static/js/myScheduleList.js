@@ -15,7 +15,7 @@ navBtns.forEach(btn => {
     });
 });
 
-if (searchBtn) searchBtn.addEventListener("click", fetchSchedules);
+searchBtn.addEventListener("click", fetchSchedules);
 
 function fetchSchedules() {
     const userId = "user01";

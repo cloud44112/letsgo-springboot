@@ -3,10 +3,12 @@ package com.travel.letsgospringboot.myschedule.controller;
 import com.travel.letsgospringboot.myschedule.service.MyScheduleService;
 import com.travel.letsgospringboot.myschedule.vo.MyScheduleVO;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
+@Slf4j
 @RestController
 @RequestMapping("/myschedule/api")
 @RequiredArgsConstructor
@@ -48,7 +50,9 @@ public class MyScheduleRestController {
 
     @DeleteMapping("/visit/{visitItemId}")
     public boolean deleteVisitItemById(@PathVariable String visitItemId) {
-        return myScheduleService.deleteVisitItemById(visitItemId);
+        boolean bool = myScheduleService.deleteVisitItemById(visitItemId);
+        log.info("결과", bool);
+        return bool;
     }
 
     @PutMapping("/budget")
@@ -63,4 +67,10 @@ public class MyScheduleRestController {
                               @RequestParam String userId) {
         return myScheduleService.setStartAt(scheduleId, startAt, userId);
     }
+
+    @DeleteMapping("/{scheduleId}")
+    public boolean deleteMySchedule(@PathVariable String scheduleId) {
+        return myScheduleService.deleteMySchedule(scheduleId);
+    }
+
 }
