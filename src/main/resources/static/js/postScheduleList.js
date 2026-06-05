@@ -1,8 +1,7 @@
 function renderPostSchedules(postScheduleList) {
     const container = document.querySelector("#scheduleListContainer");
     if (!container) return;
-        visitorView.innerHTML = postScheduleList.map(postSchedule => {
-            return `
+    container.innerHTML = postScheduleList.map(postSchedule => `
                 <figure class="figure" >
                     <div >
                         ${postSchedule.title}
@@ -32,9 +31,5 @@ function renderPostSchedules(postScheduleList) {
                     </div>
                     <div>👤 ${postSchedule.isAnonymous == 1 ? '익명' : postSchedule.userName}</div>
                 </figure>
-                `;
-        }).catch(error =>{
-            console.error("get visitors " + error);
-        });
-    }
-
+        `).join("");
+}
