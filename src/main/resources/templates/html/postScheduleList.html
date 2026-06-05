@@ -12,21 +12,18 @@
         <div class="content-container">
             <div class="content-left">
                 <div class="search-area">
-                    <form method="post" action="controller">
-                        <input type="hidden" name="cmd" value="${param.cmd == 'postScheduleListUI' ? 'postScheduleListUI' : 'postScheduleMyListUI'}">
-                        <input type="text" placeholder="장소 이름이나 게시물 이름을 검색하세요" name = "searchTitle" th:text ="${param.searchTitle}" id="title" />
-                        <button type="submit" >
+                        <input type="text" placeholder="장소 이름이나 게시물 이름을 검색하세요" name = "searchTitle"/>
+                        <button type="button" id="searchPostSchedule">
                             검색하기
                         </button>
                         <div class="sort-area">
-                            <select name="sortOrder" value="${param.sortOrder}">
+                            <select name="sortOrder" value="${param.sortOrder}" >
                                 <option value="latest" ${param.sortOrder == 'latest' ? 'selected' : ''}>날짜순</option>
                                 <option value="title" ${param.sortOrder == 'title' ? 'selected' : ''}>이름순</option>
                                 <option value="like" ${param.sortOrder == 'like' ? 'selected' : ''}>좋아요순</option>
                                 <option value="view" ${param.sortOrder == 'view' ? 'selected' : ''}>조회순</option>
                             </select>
                         </div>
-                    </form>
                 </div>
                 <div class="edit-area">
                     <button><a href="controller?cmd=myScheduleListUI">내 일정 공유</a></button>

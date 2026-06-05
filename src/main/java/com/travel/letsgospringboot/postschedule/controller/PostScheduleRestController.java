@@ -12,12 +12,12 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/postSchedule")
+@RequestMapping("/postschedule/api")
 @RequiredArgsConstructor
 public class PostScheduleRestController {
 
     private final PostScheduleService postScheduleService;
-    @GetMapping("/api/list")
+    @GetMapping("/list")
     public List<PostScheduleTO> getPostScheduleList(@RequestParam(value = "sortOrder", required = false) String sortOrder, @RequestParam(value = "keyword", required = false) String keyword) {
         if (sortOrder == null || sortOrder.trim().isEmpty()) {
             sortOrder = "latest";
@@ -48,7 +48,7 @@ public class PostScheduleRestController {
         }
     }
 
-    @GetMapping("/api/mylist")
+    @GetMapping("/mylist")
     public List<PostScheduleTO> getUserPostScheduleList(@RequestParam (value = "userId", required = false) String userId, @RequestParam(value = "sortOrder", required = false) String sortOrder, @RequestParam(value = "keyword", required = false) String keyword) {
         if (sortOrder == null || sortOrder.trim().isEmpty()) {
             sortOrder = "latest";
