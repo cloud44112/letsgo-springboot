@@ -34,7 +34,7 @@ public class SecurityConfig {
                 .usernameParameter("userID")
                 .passwordParameter("password")
                 .failureUrl("/user/loginView?error=true")
-                .defaultSuccessUrl("/user/user")
+                .defaultSuccessUrl("/")
                 .permitAll()
         );
         return http.build();
