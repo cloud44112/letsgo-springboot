@@ -50,45 +50,9 @@ public class MyScheduleRestController {
                 : myScheduleService.getMyScheduleListAllByDate(userId);
     }
 
-    @GetMapping("/idAndTitle")
-    public List<ScheduleSummaryVO> listMyScheduleIdAndTitle(Principal principal) {
-        return myScheduleService.listMyScheduleIdAndTitle(principal.getName());
-    }
-
-    @GetMapping("/nextId")
-    public String allocateNextMyScheduleId() {
-        return myScheduleService.allocateNextMyScheduleId();
-    }
-
-    @GetMapping("/detail/{scheduleId}/title")
-    public String getScheduleTitle(@PathVariable String scheduleId) {
-        return myScheduleService.getScheduleTitle(scheduleId);
-    }
-
-    @GetMapping("/detail/{scheduleId}/startAt")
-    public String getStartAt(@PathVariable String scheduleId) {
-        return myScheduleService.getStartAt(scheduleId);
-    }
-
-    @GetMapping("/detail/{scheduleId}/route")
-    public List<RouteScheduleVO> getScheduleRoute(@PathVariable String scheduleId) {
-        return myScheduleService.getScheduleRoute(scheduleId);
-    }
-
-    @GetMapping("/detail/{scheduleId}/map")
-    public List<MapScheduleVO> getMapSchedule(@PathVariable String scheduleId) {
-        return myScheduleService.getMapSchedule(scheduleId);
-    }
-
     @GetMapping("/detail/{scheduleId}/companion")
     public List<ColleagueVO> getCompanionList(@PathVariable String scheduleId) {
         return myScheduleService.getCompanionList(scheduleId);
-    }
-
-    @GetMapping("/detail/{scheduleId}/owned")
-    public int isScheduleOwnedByUser(@PathVariable String scheduleId,
-                                     Principal principal) {
-        return myScheduleService.isScheduleOwnedByUser(scheduleId, principal.getName());
     }
 
     @PostMapping
