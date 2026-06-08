@@ -1,0 +1,42 @@
+package com.travel.letsgospringboot.user.auth;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
+
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig {
+
+    @Bean
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+
+        http.csrf(csrf -> csrf.disable());
+
+        //비로그인
+        http.authorizeHttpRequests(auth ->
+                auth.requestMatchers("/", "/user/loginView", "/user/signUpView", "/user/signUp").permitAll()
+                        .requestMatchers("/user/**").authenticated()
+                        .anyRequest().permitAll());
+
+        //로그인
+        http.formLogin(form
+                -> form.loginPage("/user/loginView")
+                .loginProcessingUrl("/login")
+                .usernameParameter("userID")
+                .passwordParameter("password")
+                .failureUrl("/user/loginView?error=true")
+                .defaultSuccessUrl("/user/user")
+                .permitAll()
+        );
+        return http.build();
+    }
+}
