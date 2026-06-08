@@ -35,7 +35,7 @@ public class UserService {
 
     public boolean updatePassword(UserVO userVO) {
         JpaUsers jpaUsers = userJpaRepository.findByUserID(userVO.getUserID());
-        if (jpaUsers == null) {
+        if (jpaUsers == null || !jpaUsers.getEmail().equals(userVO.getEmail())) {
             return false;
         }
         return (userJpaRepository.save(JpaUsers.builder()
@@ -45,6 +45,7 @@ public class UserService {
                 .email(jpaUsers.getEmail())
                 .name(jpaUsers.getName())
                 .role(jpaUsers.getRole())
+                .created(jpaUsers.getCreated())
                 .build())) != null;
     }
 

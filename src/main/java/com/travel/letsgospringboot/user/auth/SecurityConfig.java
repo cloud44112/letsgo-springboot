@@ -23,7 +23,9 @@ public class SecurityConfig {
 
         //비로그인
         http.authorizeHttpRequests(auth ->
-                auth.requestMatchers("/", "/user/loginView", "/user/signUpView", "/user/signUp").permitAll()
+                auth.requestMatchers("/", "/user/loginView", "/user/signUpView", "/user/signUp",
+                                "/user/getIdView", "/user/getId",
+                                "/user/updatePwView", "/user/updatePw").permitAll()
                         .requestMatchers("/user/**").authenticated()
                         .anyRequest().permitAll());
 

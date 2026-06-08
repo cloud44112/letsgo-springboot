@@ -13,4 +13,5 @@ public class UserRequest {
     private String email;
     private String name;
     private String password;
+    private String passwordConfirm;
 }
