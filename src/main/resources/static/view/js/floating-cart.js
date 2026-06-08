@@ -38,7 +38,6 @@ function startFloatingCart(contextPath) {
 		return;
 	}
 
-	// 잠금 항목 먼저 로드 (isAlreadyInCart 중복 체크를 위해 일반 항목보다 먼저 실행)
 	loadLockedItemsFromDOM(cartBox, countText);
 
 	openButton.addEventListener('click', function () {

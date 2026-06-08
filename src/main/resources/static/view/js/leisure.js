@@ -1,6 +1,76 @@
 (function () {
+
 	var contextPath = document.body.getAttribute("data-context-path") || "";
 	var apiBase = window.location.origin + contextPath.replace(/\/$/, "");
+
+
+	var sortSel = document.getElementById("sortOrderSelect");
+	if (sortSel) {
+		sortSel.addEventListener("change", function () {
+			requestSearch();
+		});
+	}
+
+	var radios = document.querySelectorAll("input[name='category']");
+	for (var i = 0; i < radios.length; i++) {
+		radios[i].addEventListener("change", function () {
+			requestSearch();
+		});
+	}
+
+	var form = document.querySelector("form");
+	if (form) {
+		form.addEventListener("submit", function (event) {
+			event.preventDefault();
+			requestSearch();
+		});
+	}
+
+	function requestSearch() {
+		var categoryRadio = document.querySelector("input[name='category']:checked");
+		var category = categoryRadio ? categoryRadio.value : "";
+		
+		var keywordInput = document.querySelector("input[name='keyword']");
+		var keyword = keywordInput ? keywordInput.value : "";
+
+		var sortSel = document.getElementById("sortOrderSelect");
+		var sortOrder = sortSel ? sortSel.value : "distance";
+
+		var xhr = new XMLHttpRequest();
+		xhr.onreadystatechange = function () {
+			if (xhr.readyState !== 4) {
+				return;
+			}
+			if (xhr.status !== 200) {
+				alert("목록 요청 실패 (HTTP " + xhr.status + ")");
+				return;
+			}
+			var data;
+			try {
+				data = JSON.parse(xhr.responseText);
+			} catch (e) {
+				alert("JSON이 아닙니다.");
+				return;
+			}
+			if (data && data.error === true) {
+				alert(data.message || "목록을 불러오지 못했습니다.");
+				return;
+			}
+			if (!Array.isArray(data)) {
+				alert("목록 형식 오류");
+				return;
+			}
+			renderPlaces(data);
+		};
+
+		var url = apiBase + "/leisureListAjax"
+			+ "?sortOrder=" + encodeURIComponent(sortOrder)
+			+ "&category=" + encodeURIComponent(category)
+			+ "&keyword=" + encodeURIComponent(keyword);
+
+		xhr.open("GET", url, true);
+		xhr.send(null);
+	}
 
 	function renderPlaces(list) {
 		var container = document.getElementById("leisurePlaceContainer");
@@ -11,7 +81,6 @@
 			container.removeChild(container.firstChild);
 		}
 
-		// Update total count
 		var countHeader = document.querySelector(".content-container h3") || document.querySelector("main h3");
 		if (countHeader) {
 			countHeader.textContent = "총 " + list.length + "개의 항목";
@@ -74,74 +143,5 @@
 			frag.appendChild(fig);
 		}
 		container.appendChild(frag);
-	}
-
-	function requestSearch() {
-		var categoryRadio = document.querySelector("input[name='category']:checked");
-		var category = categoryRadio ? categoryRadio.value : "";
-		
-		var keywordInput = document.querySelector("input[name='keyword']");
-		var keyword = keywordInput ? keywordInput.value : "";
-
-		var sortSel = document.getElementById("sortOrderSelect");
-		var sortOrder = sortSel ? sortSel.value : "distance";
-
-		var xhr = new XMLHttpRequest();
-		xhr.onreadystatechange = function () {
-			if (xhr.readyState !== 4) {
-				return;
-			}
-			if (xhr.status !== 200) {
-				alert("목록 요청 실패 (HTTP " + xhr.status + ")");
-				return;
-			}
-			var data;
-			try {
-				data = JSON.parse(xhr.responseText);
-			} catch (e) {
-				alert("JSON이 아닙니다.");
-				return;
-			}
-			if (data && data.error === true) {
-				alert(data.message || "목록을 불러오지 못했습니다.");
-				return;
-			}
-			if (!Array.isArray(data)) {
-				alert("목록 형식 오류");
-				return;
-			}
-			renderPlaces(data);
-		};
-
-		var url = apiBase + "/leisureListAjax"
-			+ "?sortOrder=" + encodeURIComponent(sortOrder)
-			+ "&category=" + encodeURIComponent(category)
-			+ "&keyword=" + encodeURIComponent(keyword);
-
-		xhr.open("GET", url, true);
-		xhr.send(null);
-	}
-
-	var sortSel = document.getElementById("sortOrderSelect");
-	if (sortSel) {
-		sortSel.addEventListener("change", function () {
-			requestSearch();
-		});
-	}
-
-	// Listen to radio changes
-	var radios = document.querySelectorAll("input[name='category']");
-	for (var i = 0; i < radios.length; i++) {
-		radios[i].addEventListener("change", function () {
-			requestSearch();
-		});
-	}
-
-	var form = document.querySelector("form");
-	if (form) {
-		form.addEventListener("submit", function (event) {
-			event.preventDefault();
-			requestSearch();
-		});
 	}
 })();

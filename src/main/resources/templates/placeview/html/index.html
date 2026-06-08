@@ -52,6 +52,9 @@
 			<th:block th:unless="${place.firstImage != null && place.firstImage != ''}">
 				<a href="#" class="box-placeholder">이미지 없음</a>
 			</th:block>
+
+
+			
 			<figcaption class="figure-caption" th:text="${place.title}">장소제목</figcaption>
 			<span th:text="${place.addr1}">주소</span>
 
