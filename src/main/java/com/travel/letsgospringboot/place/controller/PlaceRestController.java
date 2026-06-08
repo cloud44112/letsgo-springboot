@@ -22,7 +22,7 @@ public class PlaceRestController {
             @RequestParam(value = "sortOrder", defaultValue = "distance") String sortOrder,
             @RequestParam(value = "category", required = false) String category,
             @RequestParam(value = "keyword", required = false) String keyword) {
-        String sortBy = "like".equalsIgnoreCase(sortOrder) ? "like" : "title";
+        String sortBy = ("like".equalsIgnoreCase(sortOrder) || "popular".equalsIgnoreCase(sortOrder)) ? "like" : "title";
         return placeService.searchPlaces("LEISURE", category, keyword, sortBy);
     }
 

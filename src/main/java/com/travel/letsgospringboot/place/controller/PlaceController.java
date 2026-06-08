@@ -18,12 +18,15 @@ public class PlaceController {
     private final PlaceService placeService;
 
     @GetMapping("/")
-    public String index(Model model) {
-        List<PlaceVO> list = placeService.searchPlaces("LEISURE", null, null, "title");
+    public String index(Model model,
+            @RequestParam(value = "sortOrder", defaultValue = "distance") String sortOrder) {
+        String sortBy = "like".equalsIgnoreCase(sortOrder) ? "like" : "title";
+        List<PlaceVO> list = placeService.searchPlaces("LEISURE", null, null, sortBy);
 
         model.addAttribute("leisurePlaceList", list);
+        model.addAttribute("sortOrder", sortOrder);
 
-        return "placeview/html/index";
+        return "index";
     }
 
 
@@ -40,7 +43,7 @@ public class PlaceController {
         model.addAttribute("leisurePlaceList", list);
         model.addAttribute("totalCount", list.size());
 
-        return "placeview/html/leisure";
+        return "leisure";
     }
 
 
@@ -56,7 +59,7 @@ public class PlaceController {
         model.addAttribute("restaurantPlaceList", list);
         model.addAttribute("totalCount", list.size());
 
-        return "placeview/html/restaurant";
+        return "restaurant";
     }
 
     @GetMapping("/places/stay")
@@ -71,7 +74,7 @@ public class PlaceController {
         model.addAttribute("stayPlaceList", list);
         model.addAttribute("totalCount", list.size());
 
-        return "placeview/html/stay";
+        return "stay";
     }
 
 
