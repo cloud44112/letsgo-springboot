@@ -69,6 +69,14 @@ public class PostScheduleService {
         return processPostScheduleList(postScheduleRepository.getUserPostScheduleListSearchLatest(new UserPostScheduleListVO(userId, keyword)));
     }
 
+    public PostScheduleDetailTO getPostScheduleDetail(String postId) {
+        PostScheduleDetailTO detail = postScheduleRepository.getPostScheduleDetail(postId);
+        detail.setRouteList(getScheduleRoute(postId));
+        detail.setMapList(getMapSchedule(postId));
+
+        return detail;
+    }
+
     public String getBudgetDetail(String postId) {
         return postScheduleRepository.getBudgetDetail(postId);
     }
@@ -150,4 +158,6 @@ public class PostScheduleService {
         List<PostScheduleTO> result = new ArrayList<>(uniqueMap.values());
         return result;
     }
+
+
 }

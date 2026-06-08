@@ -6,6 +6,7 @@ import com.travel.letsgospringboot.postschedule.vo.PostScheduleTO;
 import com.travel.letsgospringboot.postschedule.vo.RouteScheduleTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -78,7 +79,7 @@ public class PostScheduleRestController {
     }
 
     @GetMapping("/{postId}/budget")
-    public String getBudgetDetail(@PathVariable("postId") String postId) {
+    public String getBudgetDetail(@PathVariable("postId") String postId, Model model) {
         return postScheduleService.getBudgetDetail(postId);
     }
 

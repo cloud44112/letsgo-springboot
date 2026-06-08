@@ -1,6 +1,7 @@
 package com.travel.letsgospringboot.postschedule.controller;
 
 import com.travel.letsgospringboot.postschedule.service.PostScheduleService;
+import com.travel.letsgospringboot.postschedule.vo.PostScheduleDetailTO;
 import com.travel.letsgospringboot.postschedule.vo.PostScheduleTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -22,4 +23,22 @@ public class PostScheduleController {
         model.addAttribute("list", list);
         return "postScheduleList";
     }
+
+    @GetMapping("/detail/{postId}")
+    public String postScheduleDetail(@PathVariable("postId") String postId, Model model) {
+        postScheduleService.plusView(postId);
+        PostScheduleDetailTO detail = postScheduleService.getPostScheduleDetail(postId);
+        model.addAttribute("detail", detail);
+        return  "postScheduleDetail";
+    }
+
+
+//    @GetMapping("/detail/{postId}")
+//    @ResponseBody
+//    public PostScheduleDetailTO postScheduleDetail(@PathVariable("postId") String postId, PostScheduleDetailTO detail) {
+//        postScheduleService.plusView(postId);
+//        return postScheduleService.getPostScheduleDetail(postId);
+//    }
+
+
 }

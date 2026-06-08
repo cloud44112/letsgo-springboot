@@ -6,24 +6,25 @@
     <meta charset="UTF-8"/>
 </head>
 <body>
-    <header>
-        <div class="logo">
-            <a href="#" title="Let's GO! 홈">
-                <img src="#" alt="Let's GO!" class="site-logo"/>
-            </a>
-        </div>
-        <ul class="menu"
-            style="list-style: none; display: flex; padding: 0; margin: 0;">
-            <li><a href="">홈</a></li>
-            <li><a href="">플레이스 조회</a></li>
-            <li><a href="">일정게시판</a></li>
-            <li><a href="">내일정</a></li>
-        </ul>
-    </header>
+<header class="site-header">
+    <div class="logo">
+        <a href="/" title="Let's GO! 홈">
+            <img src="/img/logo.png" alt="Let's GO!" class="site-logo"/>
+        </a>
+    </div>
+    <ul class="menu">
+        <li><a href="/">홈</a></li>
+        <li><a href="/leisureUI">플레이스 조회</a></li>
+        <li><a href="/postSchedule/list">일정게시판</a></li>
+        <li><a href="/myScheduleListUI">내일정</a></li>
+        <li class="user-name">문성고 님</li>
+        <li><a href="/logoutAction">로그아웃</a></li>
+    </ul>
+</header>
     <div class="layout-wrapper">
         <aside class="sidebar">
             <ul>
-                <li><button type="button" class="nav-btn active" data-filter="all">전체 게시물</button></li>
+                <li><button type="button" class="nav-btn" data-filter="all">전체 게시물</button></li>
                 <li><button type="button" class="nav-btn" data-filter="user">내가 올린 게시물</button></li>
             </ul>
         </aside>
