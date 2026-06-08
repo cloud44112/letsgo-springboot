@@ -1,113 +1,89 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/css/myScheduleList.css}">
+    <script th:src="@{/js/postScheduleList.js}" defer></script>
+    <meta charset="UTF-8"/>
 </head>
 <body>
-<aside class="sidebar">
-    <div>
-        <div>
-            <a href="schedulepostAll.html"><button>전체</button></a>
-        </div>
-        <div>
-            <a href="schedulepostMy.html"><button>내가올린 일정</button></a>
-        </div>
-        <div>
-            <a href="schedulepostLike.html"><button>좋아요 누른 게시물</button></a>
-        </div>
+<header class="site-header">
+    <div class="logo">
+        <a href="/" title="Let's GO! 홈">
+            <img src="/img/logo.png" alt="Let's GO!" class="site-logo"/>
+        </a>
     </div>
-</aside>
-
-<main> <header>
-    <div class="logo">레스고!</div>
-    <ul class="menu"
-        style="list-style: none; display: flex; padding: 0; margin: 0;">
-        <li style="margin-right: 20px;"><a href="index.html">홈</a></li>
-        <li style="margin-right: 20px;"><a href="leisere.html">플레이스 조회</a></li>
-        <li style="margin-right: 20px;"><a href="schedulepostAll.html">일정게시판</a></li>
-        <li style="margin-right: 20px;"><a href="#">내일정</a></li>
-        <li><a href ="login.html">로그인</a></li>
+    <ul class="menu">
+        <li><a href="/">홈</a></li>
+        <li><a href="/leisureUI">플레이스 조회</a></li>
+        <li><a href="/postSchedule/list">일정게시판</a></li>
+        <li><a href="/myScheduleListUI">내일정</a></li>
+        <li class="user-name">문성고 님</li>
+        <li><a href="/logoutAction">로그아웃</a></li>
     </ul>
 </header>
+    <div class="layout-wrapper">
+        <aside class="sidebar">
+            <ul>
+                <li><button type="button" class="nav-btn" data-filter="all">전체 게시물</button></li>
+                <li><button type="button" class="nav-btn" data-filter="user">내가 올린 게시물</button></li>
+            </ul>
+        </aside>
 
-    <div class="content-container">
-        <div class="content-left">
-            <div class="search-area">
-                <input type="text" placeholder="장소 이름이나 지역을 검색하세요" />
-                <button type="button">검색하기</button>
+        <main>
+            <div class="content-left">
+                <div class="search-area">
+                    <input type="text" placeholder="장소 이름이나 게시물 이름을 검색하세요" id="keyword"/>
+                    <button type="button" id="searchButton">검색하기</button>
+                    <div class="sort-area">
+                        <select id="sortOrder">
+                            <option value="latest">날짜순</option>
+                            <option value="title">이름순</option>
+                            <option value="like">좋아요순</option>
+                            <option value="view">조회순</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="edit-area">
+                    <button><a href="controller?cmd=myScheduleListUI">내 일정 공유</a></button>
+                </div>
+            </div>
 
+
+            <div class="container" id="scheduleListContainer">
+                <div th:each="postSchedule : ${list}">
+                    <figure class="figure">
+                        <div th:text="${postSchedule.title}">일정제목</div>
+
+                        <a th:href="@{'/postschedule/' + ${postSchedule.postId} + '/route'}" class="box-placeholder">
+                            <img th:src="${postSchedule.firstImage}" alt="일정 이미지" class="box-placeholder">
+                        </a>
+
+                        <figcaption class="figure-caption" th:text="${postSchedule.placeTitle}">장소명</figcaption>
+
+                        <div>
+                            <button type="button" class="like-btn" data-postId="${postSchedule.postId}">
+                                <h1>❤️</h1>
+                            </button>
+                            <span>좋아요 : <span class="like-Count" th:text="${postSchedule.likeCount}">0</span></span>
+                            <span>&ensp;</span>
+                        </div>
+
+                        <div>
+                            <span>조회수 : <span th:text="${postSchedule.viewCount}">0</span></span>
+                        </div>
+
+                        <div>
+                	<span>📍<span th:text="${#strings.substring(postSchedule.addr1,0,10)}">
+                		주우우우소
+                        </span>
+                	</span>
+                        </div>
+                        <div>👤 <span th:text="${postSchedule.isAnonymous == 1 ? '익명' : postSchedule.userName}">이름</span>
+                        </div>
+                    </figure>
+                </div>
             </div>
-            <div class="sort-area">
-                <select name="sortOrder">
-                    <option value="like">좋아요순</option>
-                    <option value="view">조회순</option>
-                    <option value="latest">게시일순</option>
-                </select>
-            </div>
-        </div>
+        </main>
     </div>
-
-    <div class="container">
-        <figure class="figure">
-            <div>내일정1</div>
-            <a href="#" class="box-placeholder">이미지</a>
-            <figcaption class="figure-caption">수원수영장/수원떡볶이/진호텔 수원</figcaption>
-            <div>
-                <button>❤</button>
-                123 조회수:123 🤷‍♀️강X회 님
-            </div>
-        </figure>
-        <figure class="figure">
-            <div>내일정1</div>
-            <a href="#" class="box-placeholder">이미지</a>
-            <figcaption class="figure-caption">수원수영장/수원떡볶이/진호텔 수원</figcaption>
-            <div>
-                <button>❤</button>
-                123 조회수:123 🤷‍♀️강X회 님
-            </div>
-        </figure>
-        <figure class="figure">
-            <div>내일정1</div>
-            <a href="#" class="box-placeholder">이미지</a>
-            <figcaption class="figure-caption">수원수영장/수원떡볶이/진호텔 수원</figcaption>
-            <div>
-                <button>❤</button>
-                123 조회수:123 🤷‍♀️익명
-            </div>
-        </figure>
-        <figure class="figure">
-            <div>내일정1</div>
-            <a href="#" class="box-placeholder">이미지</a>
-            <figcaption class="figure-caption">수원수영장/수원떡볶이/진호텔 수원</figcaption>
-            <div>
-                <button>❤</button>
-                123 조회수:123 🤷‍♀️한X민 님
-            </div>
-        </figure>
-        <figure class="figure">
-            <div>내일정1</div>
-            <a href="#" class="box-placeholder">이미지</a>
-            <figcaption class="figure-caption">수원수영장/수원떡볶이/진호텔 수원</figcaption>
-            <div>
-                <button>❤</button>
-                123 조회수:123 🤷‍♀️익명
-            </div>
-        </figure>
-        <figure class="figure">
-            <div>내일정1</div>
-            <a href="#" class="box-placeholder">이미지</a>
-            <figcaption class="figure-caption">수원수영장/수원떡볶이/진호텔 수원</figcaption>
-            <div>
-                <button>❤</button>
-                123 조회수:123 🤷‍♀️익명
-            </div>
-        </figure>
-    </div>
-    <div>
-        <button>내 일정 공유</button>
-    </div>
-
-</main>
 </body>
 </html>

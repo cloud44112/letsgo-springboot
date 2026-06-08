@@ -36,6 +36,14 @@
         <result property="distanceToNext"  column="DISTANCE_TO_NEXT"/>
     </resultMap>
 
+    <resultMap id="postScheduleDetailResultMap" type="com.travel.letsgospringboot.postschedule.vo.PostScheduleDetailTO">
+        <result property="postId"        column="POST_ID"/>
+        <result property="scheduleTitle" column="SCHEDULE_TITLE"/>
+        <result property="likeCount"     column="LIKE_COUNT"/>
+        <result property="viewCount"     column="VIEW_COUNT"/>
+        <result property="writerId"      column="WRITER_ID"/>
+    </resultMap>
+
 
 
     <sql id="postScheduleColumns">
@@ -206,6 +214,17 @@
         JOIN place      p ON v.PLACE_ID = p.PLACE_ID
         WHERE sp.POST_ID = #{postId}
         ORDER BY v.VISIT_ORDER ASC
+    </select>
+
+    <select id="getPostScheduleDetail" parameterType="String" resultMap="postScheduleDetailResultMap">
+        SELECT
+            POST_ID,
+            TITLE AS SCHEDULE_TITLE,
+            LIKE_COUNT,
+            VIEW_COUNT,
+            USER_ID AS WRITER_ID
+        FROM schedule_post
+        WHERE POST_ID = #{postId}
     </select>
 
     <select id="getScheduleTitle" parameterType="String" resultType="String">
