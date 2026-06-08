@@ -20,7 +20,7 @@
     <ul class="menu" style="list-style: none; display: flex; padding: 0; margin: 0;">
         <li><a th:href="@{/}">홈</a></li>
         <li><a th:href="@{/places/leisure}">플레이스 조회</a></li>
-        <li><a th:href="@{/places/postScheduleList}">일정게시판</a></li>
+        <li><a th:href="@{/postschedule/list}">일정게시판</a></li>
         <li><a th:href="@{/myschedule/list}">내일정</a></li>
 
         <th:block sec:authorize="!isAuthenticated()">
@@ -32,9 +32,8 @@
                 사용자 님
             </li>
             <li>
-                <form th:action="@{/logout}" method="post" style="display:inline;">
-                    <button type="submit"
-                            style="background:none;border:1px solid #ff7a00;border-radius:24px;padding:10px 18px;font-weight:700;cursor:pointer;">
+                <form th:action="@{/logout}" method="post" class="logout-form">
+                    <button type="submit" class="logout-btn">
                         로그아웃
                     </button>
                 </form>
@@ -45,8 +44,12 @@
 <div class="layout-wrapper">
     <aside class="sidebar">
         <ul>
-            <li><button type="button" class="nav-btn" data-filter="all">전체 일정</button></li>
-            <li><button type="button" class="nav-btn" data-filter="shared">공유된 일정</button></li>
+            <li>
+                <button type="button" class="nav-btn" data-filter="all">전체 일정</button>
+            </li>
+            <li>
+                <button type="button" class="nav-btn" data-filter="shared">공유된 일정</button>
+            </li>
         </ul>
     </aside>
 

@@ -25,6 +25,7 @@ public class SecurityConfig {
         http.authorizeHttpRequests(auth ->
                 auth.requestMatchers("/", "/user/loginView", "/user/signUpView", "/user/signUp").permitAll()
                         .requestMatchers("/user/**").authenticated()
+                        .requestMatchers("/myschedule/**").authenticated()
                         .anyRequest().permitAll());
 
         //로그인
