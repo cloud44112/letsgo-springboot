@@ -131,14 +131,6 @@ public class TestPlaceService {
         assertThat(list).isNotEmpty();
     }
 
-    // 장소 카운팅 증가 테스트
-    @Test
-    public void testSetCounting() {
-        int rows = placeService.setCounting("2");
-        log.info("[PlaceService - setCounting] 결과 행 수: {}", rows);
-        assertThat(rows).isEqualTo(1);
-    }
-
     // ID로 장소 상세 조회 테스트
     @Test
     public void testGetPlaceById() {
@@ -184,8 +176,7 @@ public class TestPlaceService {
                 10.0,
                 true,
                 null,
-                null
-        );
+                null);
         log.info("[PlaceService - searchNearbyPlaces] 결과 개수: {}", list.size());
         assertThat(list).isNotEmpty();
     }

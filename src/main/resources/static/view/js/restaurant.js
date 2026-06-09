@@ -136,7 +136,7 @@
 		});
 	}
 
-	var form = document.querySelector("form");
+	var form = document.getElementById("searchForm");
 	if (form) {
 		form.addEventListener("submit", function (event) {
 			event.preventDefault();

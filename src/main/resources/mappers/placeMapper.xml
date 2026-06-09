@@ -147,12 +147,6 @@
 		WHERE PLACE_TYPE = 'LEISURE'
 	</select>
 
-	<update id="setCounting" parameterType="string">
-		UPDATE place
-		SET LIKE_COUNT = LIKE_COUNT + 1
-		WHERE PLACE_ID = #{value}
-	</update>
-
 	<select id="getPlaceById" parameterType="string" resultType="com.travel.letsgospringboot.place.vo.PlaceVO">
 		SELECT PLACE_ID AS placeId,
 		       TITLE,

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
 
 <head>
     <meta charset="UTF-8"/>
@@ -65,18 +65,21 @@
             </th:block>
 
             <figcaption class="figure-caption" th:text="${place.title}">장소제목</figcaption>
-            <span th:text="${place.addr1}">주소</span>
+            <span th:text="${place.addr1}">주소</span><br>
 
             <button type="button" class="like-btn" th:data-place-id="${place.placeId}" data-place-type="LEISURE"
                     th:data-like-url="@{/placeLikeAjax}">
                 <h1>❤️</h1>
             </button>
-            <div class="like-count" th:id="'likeCount-' + ${place.placeId}" th:text="'좋아요: ' + ${place.likeCount}">좋아요:
-                0
+            <div class="like-count" th:id="'likeCount-' + ${place.placeId}"
+                                    th:text="'좋아요: ' + ${place.likeCount}">좋아요: 0
             </div>
 
-            <button type="button" class="add-to-cart-btn" th:data-place-id="${place.placeId}"
-                    th:data-place-title="${place.title}" th:data-place-type="${place.placeType}">담기
+            <button type="button" class="add-to-cart-btn"
+                    th:data-place-id="${place.placeId}"
+                    th:data-place-title="${place.title}"
+                    th:data-place-type="${place.placeType}"
+                    th:data-redirect-url="@{/places/restaurant}">담기
             </button>
         </figure>
     </div>
@@ -85,8 +88,10 @@
 
 <div id="session-cart-data" style="display: none;">
     <div th:each="cartPlace : ${session.placeCartList}" class="session-cart-item"
-         th:data-place-id="${cartPlace.placeId}" th:data-place-title="${cartPlace.title}"
-         th:data-place-type="${cartPlace.placeType}"></div>
+         th:data-place-id="${cartPlace.placeId}"
+         th:data-place-title="${cartPlace.title}"
+         th:data-place-type="${cartPlace.placeType}">
+    </div>
 </div>
 
 

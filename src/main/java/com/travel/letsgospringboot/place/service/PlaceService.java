@@ -93,11 +93,6 @@ public class PlaceService {
     }
 
     @Transactional
-    public int setCounting(String placeId) {
-        return placeMapper.setCounting(placeId);
-    }
-
-    @Transactional
     public int insertVisitItem(int visitOrder, Double distanceToNext, Long placeId, String scheduleId, String scheduleType) {
         Map<String, Object> params = new HashMap<>();
         params.put("visitOrder", visitOrder);

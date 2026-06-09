@@ -33,7 +33,7 @@ function startFloatingCart(contextPath) {
 	var addToScheduleButton = document.getElementById('btn-add-to-schedule');
 
 	if (modal == null || cartBox == null || countText == null || openButton == null || closeButton == null
-			|| selectAllButton == null || deleteButton == null || addToScheduleButton == null) {
+		|| selectAllButton == null || deleteButton == null || addToScheduleButton == null) {
 		console.error('데이터가 없습니다.');
 		return;
 	}
@@ -65,6 +65,7 @@ function startFloatingCart(contextPath) {
 		var placeId = button.dataset.placeId;
 		var placeTitle = button.dataset.placeTitle;
 		var placeType = button.dataset.placeType;
+		var redirectUrl = button.dataset.redirectUrl;
 
 		if (placeType == null || placeType == '') {
 			placeType = 'LEISURE';
@@ -95,7 +96,7 @@ function startFloatingCart(contextPath) {
 			return;
 		}
 
-		saveCartToSession(contextPath, placeId, placeType);
+		saveCartToSession(contextPath, placeId, placeType, redirectUrl);
 		addCartRow(cartBox, placeId, placeTitle, placeType);
 		refreshCartCount(cartBox, countText);
 	});
@@ -136,36 +137,36 @@ function startFloatingCart(contextPath) {
 			headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
 			body: 'placeIds=' + encodeURIComponent(ids.join(','))
 		})
-		.then(function (response) { return response.json(); })
-		.then(function (data) {
-			if (data == null) { return; }
-			if (data.ok != true) {
-				alert(data.message != null ? data.message : '추가에 실패했습니다.');
-				return;
-			}
-			var added = data.added != null ? data.added : 0;
-			var idSet = {};
-			if (data.addedPlaceIds != null) {
-				for (var k = 0; k < data.addedPlaceIds.length; k++) {
-					idSet[data.addedPlaceIds[k]] = true;
+			.then(function (response) { return response.json(); })
+			.then(function (data) {
+				if (data == null) { return; }
+				if (data.ok != true) {
+					alert(data.message != null ? data.message : '추가에 실패했습니다.');
+					return;
 				}
-			}
-			var rows = cartBox.querySelectorAll('.place-item');
-			for (var m = 0; m < rows.length; m++) {
-				var row = rows[m];
-				if (row.dataset.locked !== 'true' && idSet[row.dataset.placeId]) {
-					row.remove();
+				var added = data.added != null ? data.added : 0;
+				var idSet = {};
+				if (data.addedPlaceIds != null) {
+					for (var k = 0; k < data.addedPlaceIds.length; k++) {
+						idSet[data.addedPlaceIds[k]] = true;
+					}
 				}
-			}
+				var rows = cartBox.querySelectorAll('.place-item');
+				for (var m = 0; m < rows.length; m++) {
+					var row = rows[m];
+					if (row.dataset.locked !== 'true' && idSet[row.dataset.placeId]) {
+						row.remove();
+					}
+				}
 
-			refreshCartCount(cartBox, countText);
-			selectAllButton.textContent = '전체 선택';
-			if (added == 0) {
-				alert('일정에 넣은 장소가 없습니다.');
-			} else {
-				alert('카트에 담긴 ' + added + '곳으로 새 일정을 만들었습니다. 내 일정에서 확인할 수 있습니다.');
-			}
-		});
+				refreshCartCount(cartBox, countText);
+				selectAllButton.textContent = '전체 선택';
+				if (added == 0) {
+					alert('일정에 넣은 장소가 없습니다.');
+				} else {
+					alert('카트에 담긴 ' + added + '곳으로 새 일정을 만들었습니다. 내 일정에서 확인할 수 있습니다.');
+				}
+			});
 	});
 
 	loadCartFromSession(cartBox, countText);
@@ -207,7 +208,7 @@ function addNewVisitsToSchedule(contextPath, cartBox) {
 	for (var j = 0; j < newIds.length; j++) {
 		var visitOrder = lockedCount + j + 1;
 		var body = 'visitOrder=' + encodeURIComponent(visitOrder)
-				+ '&placeId=' + encodeURIComponent(newIds[j]);
+			+ '&placeId=' + encodeURIComponent(newIds[j]);
 		requests.push(fetch(contextPath + '/myschedule/api/' + encodeURIComponent(scheduleId) + '/visit', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -237,7 +238,7 @@ function refreshCartCount(cartBox, countText) {
 	countText.textContent = placeItems.length;
 }
 
-function saveCartToSession(contextPath, placeId, placeType) {
+function saveCartToSession(contextPath, placeId, placeType, redirectUrl) {
 	var url = contextPath + '/controller?cmd=addCartAction';
 	var data = 'placeId=' + placeId + '&placeType=' + placeType;
 
@@ -250,6 +251,12 @@ function saveCartToSession(contextPath, placeId, placeType) {
 	}).then(function (response) {
 		if (response.ok) {
 			showCartToast('장바구니에 담았습니다');
+
+			if (redirectUrl) {
+				setTimeout(function () {
+					location.href = redirectUrl;
+				}, 1500);
+			}
 		}
 	});
 }

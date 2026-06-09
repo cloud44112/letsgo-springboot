@@ -19,7 +19,7 @@ public class PlaceController {
 
     @GetMapping("/")
     public String index(Model model,
-            @RequestParam(value = "sortOrder", defaultValue = "distance") String sortOrder) {
+                        @RequestParam(value = "sortOrder", defaultValue = "distance") String sortOrder) {
         String sortBy = "like".equalsIgnoreCase(sortOrder) ? "like" : "title";
         List<PlaceVO> list = placeService.searchPlaces("LEISURE", null, null, sortBy);
 
@@ -32,9 +32,9 @@ public class PlaceController {
 
     @GetMapping("/places/leisure")
     public String leisurePage(Model model,
-            @RequestParam(value = "category", required = false) String category,
-            @RequestParam(value = "keyword", required = false) String keyword,
-            @RequestParam(value = "sortOrder", defaultValue = "distance") String sortOrder) {
+                              @RequestParam(value = "category", required = false) String category,
+                              @RequestParam(value = "keyword", required = false) String keyword,
+                              @RequestParam(value = "sortOrder", defaultValue = "distance") String sortOrder) {
 
         String sortBy = "popular".equalsIgnoreCase(sortOrder) ? "like" : "title";
         List<PlaceVO> list = placeService.searchPlaces("LEISURE", category, keyword, sortBy);
@@ -49,9 +49,9 @@ public class PlaceController {
 
     @GetMapping("/places/restaurant")
     public String restaurantPage(Model model,
-            @RequestParam(value = "category", required = false) String category,
-            @RequestParam(value = "keyword", required = false) String keyword,
-            @RequestParam(value = "sortOrder", defaultValue = "name") String sortOrder) {
+                                 @RequestParam(value = "category", required = false) String category,
+                                 @RequestParam(value = "keyword", required = false) String keyword,
+                                 @RequestParam(value = "sortOrder", defaultValue = "name") String sortOrder) {
 
         String sortBy = "popular".equalsIgnoreCase(sortOrder) ? "like" : "title";
         List<PlaceVO> list = placeService.searchPlaces("RESTAURANT", category, keyword, sortBy);
@@ -64,9 +64,9 @@ public class PlaceController {
 
     @GetMapping("/places/stay")
     public String stayPage(Model model,
-            @RequestParam(value = "category", required = false) String category,
-            @RequestParam(value = "keyword", required = false) String keyword,
-            @RequestParam(value = "sortOrder", defaultValue = "name") String sortOrder) {
+                           @RequestParam(value = "category", required = false) String category,
+                           @RequestParam(value = "keyword", required = false) String keyword,
+                           @RequestParam(value = "sortOrder", defaultValue = "name") String sortOrder) {
 
         String sortBy = "popular".equalsIgnoreCase(sortOrder) ? "like" : "title";
         List<PlaceVO> list = placeService.searchPlaces("STAY", category, keyword, sortBy);
