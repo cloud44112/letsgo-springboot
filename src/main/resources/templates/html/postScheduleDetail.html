@@ -58,7 +58,7 @@
 
         <div>
             <button type="button" id="addBtn">내 일정에 추가하기</button>
-            <button type="button" id="deleteBtn">삭제하기</button>
+            <button type="button" id="deleteBtn" th:if="${detail.owner}">삭제하기</button>
             <button><a th:href="@{/postschedule/list}">목록으로</a></button>
         </div>
     </aside>
@@ -67,7 +67,7 @@
 
             <div class="content-left">
                 <div class="schedule-header">
-                    <div th:text="${detail.scheduleTitle}">일정제목</div>
+                    <div th:text="${detail.scheduleTitle}" class = "title-input">일정제목</div>
                 </div>
 
                 <ul id="sortableList">
@@ -75,10 +75,6 @@
                         class="sortable-item"
                         th:data-visit-id="${route.visitId}">
                         <span th:text="${route.visitOrder} + '. ' + ${route.title}">방문서순</span>
-                        <button type="button"
-                                class="delete-visit-btn"
-                                th:data-visit-id="${route.visitId}">×
-                        </button>
                     </li>
                 </ul>
 

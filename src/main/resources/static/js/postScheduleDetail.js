@@ -8,17 +8,14 @@ const PANELS = ["route", "budget", "todo"];
 
 deleteBtn.addEventListener("click", () => {
     deletePostSchedule(postId)
-    location.replace("/postschedule/list");
+    location.replace(`/postschedule/detail/${postId}`);
 });
 
 addBtn.addEventListener("click", () => {
     addPostScheduleToMySchedule(postId)
-    location.replace("/postschedule/list");
+    location.replace(`/postschedule/detail/${postId}`);
 });
 
-function readTitle() {
-    return document.getElementById("scheduleTitleInput").value.trim();
-}
 
 function readRouteOrder() {
     return [...document.querySelectorAll("#sortableList li")].map((li, index) => ({
@@ -65,22 +62,24 @@ if (sortableList && typeof Sortable !== "undefined") {
 }
 
 function deletePostSchedule(postId){
-    if (!confirm("이 항목을 삭제하시겠습니까?")) return;
+    if (!confirm("해당 게시물을 삭제하시겠습니까?")) return;
     fetch(`/postschedule/api/${postId}`, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" }
     })
         .then(res => res.json())
+        .then(ok => alert(ok ? "게시물이 삭제되었습니다." : "게시물 삭제에 실패했습니다."))
         .catch(err => console.error("fetch 오류:", err));
 }
 
 function addPostScheduleToMySchedule(postId){
-    if (!confirm("이 항목을 등록하시겠습니까?")) return;
-    fetch(`/postschedule/api/${postId}`, {
-        method: "POST",
+    if (!confirm("게시물을 일정에 추가하시겠습니까?")) return;
+    fetch(`/postschedule/api/${postId}/copy`, {
+        method: "PUT",
         headers: { "Content-Type": "application/json" }
     })
         .then(res => res.json())
+        .then(ok => alert(ok ? "일정이 추가되었습니다" : "일정 추가에 실패했습니다."))
         .catch(err => console.error("fetch 오류:", err));
 }
 

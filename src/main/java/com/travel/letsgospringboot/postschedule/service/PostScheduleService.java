@@ -115,9 +115,12 @@ public class PostScheduleService {
     }
 
     @Transactional
-    public void deletePostSchedule(String postId) {
+    public void deletePostSchedule(String postId, String loingUserId) {
         postScheduleRepository.deleteVisitItem(postId);
-        postScheduleRepository.deleteSchedulePost(postId);
+        String writerId = getUserId(postId);
+        if(writerId.equals(loingUserId)){
+            postScheduleRepository.deleteSchedulePost(postId);
+        }
     }
 
     @Transactional

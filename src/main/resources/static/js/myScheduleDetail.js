@@ -281,7 +281,7 @@ function shareToPost(isAnonymous) {
         body: new URLSearchParams({ isAnonymous })
     })
         .then(res => res.text())
-        .then(postId => alert(postId ? `게시판에 공유되었습니다. (글번호: ${postId})` : "공유에 실패했습니다."))
+        .then(postId => alert(postId ? `게시판에 공유되었습니다.` : "공유에 실패했습니다."))
         .catch(err => console.error("fetch 오류:", err));
 }
 
