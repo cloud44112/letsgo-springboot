@@ -1,33 +1,27 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
-    <link rel="stylesheet" href="/css/getid.css">
+    <link rel = "stylesheet" href ="/css/getid.css">
     <meta charset="UTF-8">
-    <title>아이디 찾기</title>
+    <title>Title</title>
 </head>
 <body>
 <div class="getidbox">
-    <h1>아이디 찾기</h1>
+    <div class="name">
+        <input placeholder="이름">
+    </div>
+    <div class="emaile">
+        <input type="password" placeholder="이메일"><button>코드 전송</button>
+    </div>
 
-    <!-- errorMessage: model.addAttribute("errorMessage", ...) -->
-    <div th:if="${errorMessage}" th:text="${errorMessage}" style="color:red;"></div>
-
-    <!-- userId: model.addAttribute("userId", ...) -->
-    <div th:if="${userId}" th:text="'회원님의 아이디는 &quot;' + ${userId} + '&quot; 입니다.'"></div>
-
-    <form method="post" action="/user/getId">
-        <div class="name">
-            <input name="name" placeholder="이름">
-        </div>
-        <div class="emaile">
-            <input name="email" type="email" placeholder="이메일">
-        </div>
-        <div>
-            <button type="submit">아이디 찾기</button>
-        </div>
-    </form>
+    <div class="checkcode">
+        <input placeholder="인증코드"><button>인증</button>
+    </div>
     <div>
-        <a href="/user/loginView">로그인</a>
+        회원님의 아이디는 "example123"입니다.
+    </div>
+    <div>
+        <a href="login">로그인</a>
     </div>
 </div>
 </body>
