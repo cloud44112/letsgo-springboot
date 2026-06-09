@@ -34,7 +34,7 @@
 
     <resultMap id="colleagueResultMap" type="com.travel.letsgospringboot.myschedule.vo.ColleagueVO">
         <constructor>
-            <arg column="user_id" javaType="String"/>
+            <arg column="userid" javaType="String"/>
             <arg column="name" javaType="String"/>
             <arg column="email" javaType="String"/>
             <arg column="permission" javaType="String"/>
@@ -302,8 +302,8 @@
     </insert>
 
     <insert id="addVisitItem" parameterType="map">
-        INSERT INTO visit_item (visit_item_id, visit_order, schedule_type, place_id, schedule_id)
-        VALUES (NEXTVAL(seq_visit_item), #{visitOrder}, 'SCHEDULE', #{placeId}, #{scheduleId})
+        INSERT INTO visit_item (visit_order, schedule_type, place_id, schedule_id)
+        VALUES (#{visitOrder}, 'SCHEDULE', #{placeId}, #{scheduleId})
     </insert>
 
     <insert id="addCompanion" parameterType="map">
@@ -328,9 +328,8 @@
     </insert>
 
     <insert id="shareVisitItemsToPost" parameterType="String">
-        INSERT INTO visit_item (visit_item_id, visit_order, distance_to_next, schedule_type, place_id, schedule_id)
-        SELECT NEXTVAL(seq_visit_item),
-               visit_order,
+        INSERT INTO visit_item (visit_order, distance_to_next, schedule_type, place_id, schedule_id)
+        SELECT visit_order,
                distance_to_next,
                'POST',
                place_id,
@@ -379,9 +378,9 @@
     </delete>
 
     <select id="getCompanionList" parameterType="String" resultMap="colleagueResultMap">
-        SELECT u.user_id, u.name, u.email, ssu.permission
+        SELECT u.userid, u.name, u.email, ssu.permission
         FROM schedule_share_user ssu
-                 JOIN users u ON ssu.shared_user_id = u.user_id
+                 JOIN jpa_users u ON ssu.shared_user_id = u.userid
         WHERE ssu.my_schedule_id = #{myScheduleId}
     </select>
 

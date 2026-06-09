@@ -132,7 +132,7 @@ public class MyScheduleRestController {
     public boolean deleteVisitItemById(@PathVariable String scheduleId,
                                        @PathVariable String visitItemId) {
         boolean bool = myScheduleService.deleteVisitItemById(visitItemId);
-        log.info("결과", bool);
+//        log.info("결과", bool);
         return bool;
     }
 }

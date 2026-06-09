@@ -275,9 +275,9 @@
 
     <insert id="copyToVisitItem" parameterType="com.travel.letsgospringboot.postschedule.vo.CopyToVisitItemVO">
         INSERT INTO visit_item
-            (VISIT_ITEM_ID, VISIT_ORDER, DISTANCE_TO_NEXT, PLACE_ID, SCHEDULE_ID, SCHEDULE_TYPE)
+            (VISIT_ORDER, DISTANCE_TO_NEXT, PLACE_ID, SCHEDULE_ID, SCHEDULE_TYPE)
         VALUES
-            (NEXT VALUE FOR seq_visit_item, #{visitOrder}, #{distanceToNext}, #{placeId}, #{myScheduleId}, #{scheduleType})
+            (#{visitOrder}, #{distanceToNext}, #{placeId}, #{myScheduleId}, #{scheduleType})
     </insert>
 
 </mapper>
