@@ -62,6 +62,8 @@ public class MyScheduleService {
         Map<String, MyScheduleVO> uniqueMap = new LinkedHashMap<>();
         for (MyScheduleVO vo : data) {
             if (!uniqueMap.containsKey(vo.getMyScheduleId())) {
+                vo.setStartAt(formatStartAt(vo.getStartAt()));
+                vo.setAddr1(formatAddr1(vo.getAddr1()));
                 uniqueMap.put(vo.getMyScheduleId(), vo);
             } else {
                 MyScheduleVO existingVO = uniqueMap.get(vo.getMyScheduleId());
@@ -77,12 +79,34 @@ public class MyScheduleService {
         return result;
     }
 
+    private String formatStartAt(String startAt) {
+        if (startAt == null) {
+            return null;
+        }
+        return startAt.length() >= 10 ? startAt.substring(0, 10) : startAt;
+    }
+
+    private String formatAddr1(String addr1) {
+        if (addr1 == null) {
+            return null;
+        }
+        String[] tokens = addr1.trim().split("\\s+");
+        if (tokens.length <= 2) {
+            return addr1.trim();
+        }
+        return tokens[0] + " " + tokens[1];
+    }
+
     public boolean setMyScheduleTitle(String title, String myScheduleId, String userId) {
         return myScheduleRepository.setMyScheduleTitle(title, myScheduleId, userId);
     }
 
     public boolean setTodoDetail(String scheduleId, String todoDetail) {
         return myScheduleRepository.setTodoDetail(scheduleId, todoDetail);
+    }
+
+    public ScheduleDetailVO getScheduleDetail(String scheduleId) {
+        return myScheduleRepository.getScheduleDetail(scheduleId);
     }
 
     public String getTodoDetail(String scheduleId) {

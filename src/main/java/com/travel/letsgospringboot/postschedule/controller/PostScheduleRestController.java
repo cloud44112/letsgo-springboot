@@ -6,23 +6,23 @@ import com.travel.letsgospringboot.postschedule.vo.PostScheduleTO;
 import com.travel.letsgospringboot.postschedule.vo.RouteScheduleTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/postSchedule")
+@RequestMapping("/postschedule/api")
 @RequiredArgsConstructor
 public class PostScheduleRestController {
 
     private final PostScheduleService postScheduleService;
-    @GetMapping("/api/list")
+    @GetMapping("/list")
     public List<PostScheduleTO> getPostScheduleList(@RequestParam(value = "sortOrder", required = false) String sortOrder, @RequestParam(value = "keyword", required = false) String keyword) {
         if (sortOrder == null || sortOrder.trim().isEmpty()) {
             sortOrder = "latest";
         }
-        System.out.println(sortOrder + keyword);
         if (keyword == null || keyword.trim().isEmpty()) {
             switch (sortOrder) {
                 case "like":
@@ -48,7 +48,7 @@ public class PostScheduleRestController {
         }
     }
 
-    @GetMapping("/api/mylist")
+    @GetMapping("/mylist")
     public List<PostScheduleTO> getUserPostScheduleList(@RequestParam (value = "userId", required = false) String userId, @RequestParam(value = "sortOrder", required = false) String sortOrder, @RequestParam(value = "keyword", required = false) String keyword) {
         if (sortOrder == null || sortOrder.trim().isEmpty()) {
             sortOrder = "latest";
@@ -83,7 +83,7 @@ public class PostScheduleRestController {
         return postScheduleService.getBudgetDetail(postId);
     }
 
-    @GetMapping("/{postId}/todo")
+    @GetMapping("/{postId}/detail")
     public String getTodoDetail(@PathVariable("postId") String postId) {
         return postScheduleService.getTodoDetail(postId);
     }
@@ -93,7 +93,7 @@ public class PostScheduleRestController {
         return postScheduleService.getScheduleRoute(postId);
     }
 
-    @GetMapping("/{postId}/route/map")
+    @GetMapping("/{postId}/map")
     public List<MapScheduleTO> getMapSchedule(@PathVariable("postId") String postId) {
         return postScheduleService.getMapSchedule(postId);
     }
@@ -103,17 +103,17 @@ public class PostScheduleRestController {
         return postScheduleService.getScheduleTitle(postId);
     }
 
-    @GetMapping("/{postId}/likeCount")
+    @GetMapping("/{postId}/like")
     public int getLikeCount(@PathVariable("postId") String postId) {
         return postScheduleService.getLikeCount(postId);
     }
 
-    @GetMapping("/{postId}/viewCount")
+    @GetMapping("/{postId}/view")
     public int getViewCount(@PathVariable("postId") String postId) {
         return postScheduleService.getViewCount(postId);
     }
 
-    @GetMapping("/{postId}/userId")
+    @GetMapping("/{postId}/id")
     public String getUserId(@PathVariable("postId") String postId) {
         return postScheduleService.getUserId(postId);
     }
@@ -128,13 +128,13 @@ public class PostScheduleRestController {
         postScheduleService.plusView(postId);
     }
 
-    @DeleteMapping("/{postId}/delete")
+    @DeleteMapping("/{postId}")
     public ResponseEntity<Void> deletePostSchedule(@PathVariable("postId") String postId){
         postScheduleService.deletePostSchedule(postId);
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping("/{postId}/addToMySchedule")
+    @PutMapping("/{postId}/")
     public ResponseEntity<String> addToMySchedule(@PathVariable("postId") String postId, @RequestBody Map<String, String> body) {
         String userId = body.get("userId");
         postScheduleService.addToMySchedule(postId, userId);

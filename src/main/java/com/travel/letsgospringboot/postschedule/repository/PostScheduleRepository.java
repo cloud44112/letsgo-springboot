@@ -33,6 +33,8 @@ public interface PostScheduleRepository {
     List<RouteScheduleTO> getScheduleRoute(String postId);
     List<MapScheduleTO> getMapSchedule(String postId);
 
+    PostScheduleDetailTO getPostScheduleDetail(String postId);
+
     String getScheduleTitle(String postId);
 
     boolean deleteSchedulePost(String postId);
@@ -49,4 +51,6 @@ public interface PostScheduleRepository {
     void copyToMySchedule(CopyToMyScheduleVO copyToMyScheduleVO);
 
     boolean copyToVisitItem(CopyToVisitItemVO copyToVisitItemVO);
+
+
 }

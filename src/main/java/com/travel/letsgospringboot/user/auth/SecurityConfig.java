@@ -27,6 +27,7 @@ public class SecurityConfig {
                                 "/user/getIdView", "/user/getId",
                                 "/user/updatePwView", "/user/updatePw").permitAll()
                         .requestMatchers("/user/**").authenticated()
+                        .requestMatchers("/myschedule/**").authenticated()
                         .anyRequest().permitAll());
 
         //로그인
@@ -36,7 +37,7 @@ public class SecurityConfig {
                 .usernameParameter("userID")
                 .passwordParameter("password")
                 .failureUrl("/user/loginView?error=true")
-                .defaultSuccessUrl("/user/user")
+                .defaultSuccessUrl("/")
                 .permitAll()
         );
         return http.build();

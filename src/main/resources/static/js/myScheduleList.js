@@ -15,15 +15,16 @@ navBtns.forEach(btn => {
     });
 });
 
-if (searchBtn) searchBtn.addEventListener("click", fetchSchedules);
+searchBtn.addEventListener("click", fetchSchedules);
+
+sortOrderSelect?.addEventListener("change", fetchSchedules);
 
 function fetchSchedules() {
-    const userId = "user01";
     const searchTitle = searchTitleInput?.value ?? "";
     const sortOrder = sortOrderSelect?.value ?? "date";
     const isShared = currentFilter === "shared";
 
-    fetch(`/myschedule/api/list?userId=${userId}&searchTitle=${searchTitle}&sortOrder=${sortOrder}&isShared=${isShared}`, {
+    fetch(`/myschedule/api/list?searchTitle=${searchTitle}&sortOrder=${sortOrder}&isShared=${isShared}`, {
         method: "GET",
         headers: { "Content-Type": "application/json" }
     })
@@ -44,7 +45,7 @@ function renderMySchedules(myScheduleList) {
                     <img src="${item.firstImage}" alt="이미지" class="box-placeholder">
                 </a>
                 <figcaption class="figure-caption">${item.placeTitle}</figcaption>
-                <div>${item.startAt} 📍${item.addr1}</div>
+                <div>${item.startAt}<br>📍${item.addr1}</div>
             </figure>
         `;
     }).join("");
