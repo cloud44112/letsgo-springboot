@@ -11,20 +11,20 @@
 <div class="updatepwdbox">
     <h1>비밀번호 찾기</h1>
 
-    <div th:if="${errorMessage}" th:text="${errorMessage}" style="color:red;"></div>
+    <div id="updatePwMessage"></div>
 
-    <form method="post" action="/user/updatePw">
+    <form id="updatePwForm" method="post" action="/user/updatePw">
         <div class="id">
-            <input name="userID" placeholder="아이디">
+            <input id="userIdInput" name="userID" placeholder="아이디">
         </div>
         <div class="emaile">
-            <input name="email" type="email" placeholder="이메일">
+            <input type="email" id="emailInput" name="email" placeholder="이메일">
         </div>
         <div class="pw">
-            <input name="password" type="password" placeholder="새비밀번호">
+            <input type="password" id="newPasswordInput" name="password" placeholder="새비밀번호">
         </div>
         <div class="pw">
-            <input name="passwordConfirm" type="password" placeholder="새비밀번호 확인">
+            <input type="password" id="newPasswordConfirmInput" name="passwordConfirm" placeholder="새비밀번호 확인">
         </div>
         <div>
             <button type="submit">비밀번호 변경</button>
@@ -32,5 +32,6 @@
         </div>
     </form>
 </div>
+<script th:src="@{/js/updatepw.js}"></script>
 </body>
 </html>

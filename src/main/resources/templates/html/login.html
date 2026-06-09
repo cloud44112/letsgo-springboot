@@ -11,7 +11,7 @@
 <div class="loginbox">
     <h1>로그인</h1>
 
-    <div th:if="${errorMessage}" th:text="${errorMessage}" style="color:red;"></div>
+    <div th:if="${param.error}" style="color:red;">아이디/비밀번호를 다시 입력하세요.</div>
     <div id="loginMessage"></div>
 
     <form id="loginForm" method="post" action="/login">
