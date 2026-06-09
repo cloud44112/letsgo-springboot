@@ -94,7 +94,7 @@ if (sortableList && typeof Sortable !== "undefined") {
 function deleteVisit(visitId) {
     if (!confirm("이 항목을 삭제하시겠습니까?")) return;
 
-    fetch(`/myschedule/api/visit/${visitId}`, {
+    fetch(`/myschedule/api/${scheduleId}/visit/${visitId}`, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" }
     })
@@ -121,7 +121,7 @@ function calcBudgetTotal() {
 function saveBudget() {
     const payload = JSON.stringify({ items: readBudgetItems() });
 
-    fetch(`/myschedule/api/detail/${scheduleId}/budget`, {
+    fetch(`/myschedule/api/${scheduleId}/budget`, {
         method: "PUT",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: new URLSearchParams({ budgetDetail: payload })
@@ -132,10 +132,10 @@ function saveBudget() {
 }
 
 function saveTodo(todoDetail) {
-    fetch(`/myschedule/api/todo`, {
+    fetch(`/myschedule/api/${scheduleId}/todo`, {
         method: "PUT",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: new URLSearchParams({ scheduleId, todoDetail })
+        body: new URLSearchParams({ todoDetail })
     })
         .then(res => res.json())
         .then(ok => alert(ok ? "저장되었습니다." : "저장에 실패했습니다."))
@@ -208,7 +208,7 @@ function renderCompanion() {
 }
 
 function loadCompanions() {
-    fetch(`/myschedule/api/detail/${scheduleId}/companion`)
+    fetch(`/myschedule/api/${scheduleId}/companion`)
         .then(res => res.json())
         .then(renderCompanionList)
         .catch(err => console.error("fetch 오류:", err));
@@ -246,10 +246,10 @@ function renderCompanionList(list) {
 }
 
 function addCompanion(sharedUserId) {
-    fetch(`/myschedule/api/companion`, {
+    fetch(`/myschedule/api/${scheduleId}/companion`, {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: new URLSearchParams({ myScheduleId: scheduleId, sharedUserId })
+        body: new URLSearchParams({ sharedUserId })
     })
         .then(res => res.json())
         .then(ok => {
@@ -264,10 +264,10 @@ function addCompanion(sharedUserId) {
 }
 
 function changePermission(sharedUserId, permission) {
-    fetch(`/myschedule/api/companion/permission`, {
+    fetch(`/myschedule/api/${scheduleId}/companion/permission`, {
         method: "PUT",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: new URLSearchParams({ myScheduleId: scheduleId, sharedUserId, permission })
+        body: new URLSearchParams({ sharedUserId, permission })
     })
         .then(res => res.json())
         .then(ok => { if (!ok) alert("권한 변경에 실패했습니다."); })
@@ -275,10 +275,10 @@ function changePermission(sharedUserId, permission) {
 }
 
 function shareToPost(isAnonymous) {
-    fetch(`/myschedule/api/share`, {
+    fetch(`/myschedule/api/${scheduleId}/share`, {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: new URLSearchParams({ myScheduleId: scheduleId, isAnonymous })
+        body: new URLSearchParams({ isAnonymous })
     })
         .then(res => res.text())
         .then(postId => alert(postId ? `게시판에 공유되었습니다. (글번호: ${postId})` : "공유에 실패했습니다."))
@@ -286,10 +286,10 @@ function shareToPost(isAnonymous) {
 }
 
 function submitTitle(title) {
-    fetch(`/myschedule/api/title`, {
+    fetch(`/myschedule/api/${scheduleId}/title`, {
         method: "PUT",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: new URLSearchParams({ title, myScheduleId: scheduleId })
+        body: new URLSearchParams({ title })
     })
         .then(res => res.json())
         .then(ok => alert(ok ? "일정 제목이 수정되었습니다." : "수정에 실패했습니다."))
@@ -301,10 +301,10 @@ function submitStartAt(startAt) {
         alert("날짜를 선택해주세요.");
         return;
     }
-    fetch(`/myschedule/api/startAt`, {
+    fetch(`/myschedule/api/${scheduleId}/startAt`, {
         method: "PUT",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: new URLSearchParams({ scheduleId, startAt })
+        body: new URLSearchParams({ startAt })
     })
         .then(res => res.json())
         .then(ok => alert(ok ? "날짜가 수정되었습니다." : "수정에 실패했습니다."))
@@ -319,7 +319,7 @@ function submitRoute(order) {
         body.append("distances", "0");
     });
 
-    fetch(`/myschedule/api/visitOrders`, {
+    fetch(`/myschedule/api/${scheduleId}/visit/orders`, {
         method: "PUT",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body
