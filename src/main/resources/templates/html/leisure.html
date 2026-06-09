@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.springframework.org/security/tags">
 
 <head>
     <meta charset="UTF-8"/>
@@ -45,7 +45,7 @@
 </header>
 
 
-<form th:action="@{/places/leisure}" method="GET">
+<form th:action="@{/places/leisure}" method="GET" id="searchForm">
     <input type="hidden" name="cmd" value="searchPlace"/>
     <input type="hidden" name="placeType" value="LEISURE"/>
 
@@ -204,18 +204,18 @@
                     </div>
                 </div>
             </div>
-
+            <H1>🏃레저스포츠</H1>
             <div class="container" id="leisurePlaceContainer">
                 <figure class="figure" th:each="place : ${leisurePlaceList}">
                     <th:block th:if="${place.firstImage != null && place.firstImage != ''}">
                         <img th:src="${place.firstImage}" th:alt="${place.title}" class="box-placeholder"/>
                     </th:block>
                     <th:block th:unless="${place.firstImage != null && place.firstImage != ''}">
-                        <a href="#" class="box-placeholder">이미지 없음</a>
+                        <a class="box-placeholder">이미지 없음</a>
                     </th:block>
 
                     <figcaption class="figure-caption" th:text="${place.title}">장소제목</figcaption>
-                    <span th:text="${place.addr1}">주소</span>
+                    <span th:text="${place.addr1}">주소</span><br>
 
                     <button type="button" class="like-btn" th:data-place-id="${place.placeId}"
                             data-place-type="LEISURE" th:data-like-url="@{/placeLikeAjax}">
@@ -225,8 +225,11 @@
                          th:text="'좋아요: ' + ${place.likeCount}">좋아요: 0
                     </div>
 
-                    <button type="button" class="add-to-cart-btn" th:data-place-id="${place.placeId}"
-                            th:data-place-title="${place.title}" th:data-place-type="${place.placeType}">담기
+                    <button type="button" class="add-to-cart-btn"
+                            th:data-place-id="${place.placeId}"
+                            th:data-place-title="${place.title}"
+                            th:data-place-type="${place.placeType}"
+                            th:data-redirect-url="@{/places/restaurant}"> 담기
                     </button>
                 </figure>
             </div>

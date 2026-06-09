@@ -18,7 +18,7 @@ public class TestPostScheduleService {
 
     @Test
     public void testDeletePostSchedule() {
-        postScheduleService.deletePostSchedule("P001");
+        postScheduleService.deletePostSchedule("P001", "user01");
     }
 
 

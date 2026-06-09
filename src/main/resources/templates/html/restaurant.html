@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <meta charset="UTF-8"/>
@@ -43,7 +43,7 @@
 </header>
 
 
-<form th:action="@{/places/restaurant}" method="GET">
+<form th:action="@{/places/restaurant}" method="GET" id="searchForm">
     <input type="hidden" name="cmd" value="searchPlace"/>
     <input type="hidden" name="placeType" value="RESTAURANT"/>
     <input type="hidden" name="category" id="categoryInput"
@@ -89,17 +89,17 @@
                     </div>
                 </div>
             </div>
-
+            <H1>🍔음식점</H1>
             <div class="container" id="restaurantPlaceContainer">
                 <figure class="figure" th:each="place : ${restaurantPlaceList}">
                     <th:block th:if="${place.firstImage != null && place.firstImage != ''}">
                         <img th:src="${place.firstImage}" th:alt="${place.title}" class="box-placeholder"/>
                     </th:block>
                     <th:block th:unless="${place.firstImage != null && place.firstImage != ''}">
-                        <a href="#" class="box-placeholder">이미지 없음</a>
+                        <a class="box-placeholder">이미지 없음</a>
                     </th:block>
                     <figcaption class="figure-caption" th:text="${place.title}">장소제목</figcaption>
-                    <span th:text="${place.addr1}">주소</span>
+                    <span th:text="${place.addr1}">주소</span><br>
 
                     <button type="button" class="like-btn" th:data-place-id="${place.placeId}"
                             data-place-type="RESTAURANT" th:data-like-url="@{/placeLikeAjax}">

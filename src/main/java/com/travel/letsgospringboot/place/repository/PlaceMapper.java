@@ -36,8 +36,6 @@ public interface PlaceMapper {
 
     List<PlaceVO> getLeisurePlaces();
 
-    int setCounting(String placeId);
-
     PlaceVO getPlaceById(String placeId);
 
     List<VisitItemVO> getVisitItemsByScheduleId(String scheduleId);
@@ -64,4 +62,3 @@ public interface PlaceMapper {
 
     int insertMySchedule(Map<String, Object> params);
 }
-

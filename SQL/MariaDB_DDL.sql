@@ -48,6 +48,8 @@ CREATE SEQUENCE seq_my_schedule
     CYCLE
     CACHE 20;
 
+# ALTER TABLE my_schedule DROP FOREIGN KEY fk_schedule_user;
+
 CREATE TABLE my_schedule
 (
     my_schedule_id VARCHAR(50)  NOT NULL,
@@ -58,7 +60,7 @@ CREATE TABLE my_schedule
     is_shared      TINYINT(1)   DEFAULT 0,
     user_id        VARCHAR(50)  NOT NULL,
     CONSTRAINT pk_my_schedule PRIMARY KEY (my_schedule_id),
-    CONSTRAINT fk_schedule_user FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE
+#     CONSTRAINT fk_schedule_user FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE
 ) DEFAULT CHARSET=utf8mb4;
 
 CREATE SEQUENCE seq_schedule_post
@@ -68,7 +70,7 @@ CREATE SEQUENCE seq_schedule_post
     MAXVALUE 999999
     CYCLE
     CACHE 20;
-
+# ALTER TABLE schedule_post DROP FOREIGN KEY fk_post_user;
 CREATE TABLE schedule_post
 (
     post_id        VARCHAR(50)  NOT NULL,
@@ -81,7 +83,7 @@ CREATE TABLE schedule_post
     is_anonymous   TINYINT(1)   NOT NULL,
     user_id        VARCHAR(50)  NOT NULL,
     CONSTRAINT pk_schedule_post PRIMARY KEY (post_id),
-    CONSTRAINT fk_post_user FOREIGN KEY (user_id) REFERENCES users (user_id)
+#     CONSTRAINT fk_post_user FOREIGN KEY (user_id) REFERENCES users (user_id)
 ) DEFAULT CHARSET=utf8mb4;
 
 CREATE SEQUENCE seq_visit_item
@@ -105,6 +107,10 @@ CREATE TABLE visit_item
     CONSTRAINT chk_schedule_type CHECK (schedule_type IN ('SCHEDULE', 'POST'))
 ) DEFAULT CHARSET=utf8mb4;
 
+
+ALTER TABLE visit_item
+    MODIFY visit_item_id BIGINT NOT NULL AUTO_INCREMENT;
+
 CREATE SEQUENCE seq_schedule_share_user
     START WITH 1
     INCREMENT BY 1
@@ -112,6 +118,7 @@ CREATE SEQUENCE seq_schedule_share_user
     MAXVALUE 999999
     CYCLE
     CACHE 20;
+
 
 CREATE TABLE schedule_share_user
 (
@@ -121,5 +128,7 @@ CREATE TABLE schedule_share_user
     shared_user_id VARCHAR(50)  NOT NULL,
     CONSTRAINT pk_schedule_share_user PRIMARY KEY (share_id),
     CONSTRAINT fk_share_schedule FOREIGN KEY (my_schedule_id) REFERENCES my_schedule (my_schedule_id) ON DELETE CASCADE,
-    CONSTRAINT fk_share_user FOREIGN KEY (shared_user_id) REFERENCES users (user_id) ON DELETE CASCADE
+#     CONSTRAINT fk_share_user FOREIGN KEY (shared_user_id) REFERENCES users (user_id) ON DELETE CASCADE
 ) DEFAULT CHARSET=utf8mb4;
+
+# ALTER TABLE schedule_share_user DROP FOREIGN KEY fk_share_user;

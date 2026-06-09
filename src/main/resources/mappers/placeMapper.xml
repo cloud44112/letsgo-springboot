@@ -112,9 +112,8 @@
 	</select>
 
 	<insert id="insertVisitItem" parameterType="map">
-		INSERT INTO visit_item (VISIT_ITEM_ID, VISIT_ORDER, DISTANCE_TO_NEXT, PLACE_ID, SCHEDULE_ID, SCHEDULE_TYPE)
-		VALUES ((SELECT IFNULL(MAX(CAST(visit_item_id_temp AS UNSIGNED)), 0) + 1 FROM (SELECT VISIT_ITEM_ID AS visit_item_id_temp FROM visit_item) AS temp),
-		        #{visitOrder},
+		INSERT INTO visit_item (VISIT_ORDER, DISTANCE_TO_NEXT, PLACE_ID, SCHEDULE_ID, SCHEDULE_TYPE)
+		VALUES (#{visitOrder},
 		        #{distanceToNext},
 		        #{placeId},
 		        #{scheduleId},
@@ -147,12 +146,6 @@
 		FROM place
 		WHERE PLACE_TYPE = 'LEISURE'
 	</select>
-
-	<update id="setCounting" parameterType="string">
-		UPDATE place
-		SET LIKE_COUNT = LIKE_COUNT + 1
-		WHERE PLACE_ID = #{value}
-	</update>
 
 	<select id="getPlaceById" parameterType="string" resultType="com.travel.letsgospringboot.place.vo.PlaceVO">
 		SELECT PLACE_ID AS placeId,

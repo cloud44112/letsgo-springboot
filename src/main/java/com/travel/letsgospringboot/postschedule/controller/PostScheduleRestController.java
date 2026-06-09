@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 
@@ -49,7 +50,8 @@ public class PostScheduleRestController {
     }
 
     @GetMapping("/mylist")
-    public List<PostScheduleTO> getUserPostScheduleList(@RequestParam (value = "userId", required = false) String userId, @RequestParam(value = "sortOrder", required = false) String sortOrder, @RequestParam(value = "keyword", required = false) String keyword) {
+    public List<PostScheduleTO> getUserPostScheduleList(Principal principal, @RequestParam(value = "sortOrder", required = false) String sortOrder, @RequestParam(value = "keyword", required = false) String keyword) {
+        String userId = principal.getName();
         if (sortOrder == null || sortOrder.trim().isEmpty()) {
             sortOrder = "latest";
         }
@@ -83,7 +85,7 @@ public class PostScheduleRestController {
         return postScheduleService.getBudgetDetail(postId);
     }
 
-    @GetMapping("/{postId}/detail")
+    @GetMapping("/{postId}/todo")
     public String getTodoDetail(@PathVariable("postId") String postId) {
         return postScheduleService.getTodoDetail(postId);
     }
@@ -129,15 +131,13 @@ public class PostScheduleRestController {
     }
 
     @DeleteMapping("/{postId}")
-    public ResponseEntity<Void> deletePostSchedule(@PathVariable("postId") String postId){
-        postScheduleService.deletePostSchedule(postId);
-        return ResponseEntity.ok().build();
+    public void deletePostSchedule(Principal principal, @PathVariable("postId") String postId){
+        String loingUserId = principal.getName();
+        postScheduleService.deletePostSchedule(postId, loingUserId);
     }
 
-    @PutMapping("/{postId}/")
-    public ResponseEntity<String> addToMySchedule(@PathVariable("postId") String postId, @RequestBody Map<String, String> body) {
-        String userId = body.get("userId");
-        postScheduleService.addToMySchedule(postId, userId);
-        return ResponseEntity.ok("성공ㅇㅇ");
+    @PutMapping("/{postId}/copy")
+    public void addToMySchedule(Principal principal, @PathVariable("postId") String postId) {
+        postScheduleService.addToMySchedule(postId, principal.getName());
     }
 }

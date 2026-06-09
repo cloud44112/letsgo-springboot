@@ -42,7 +42,10 @@ document.addEventListener("DOMContentLoaded", function () {
 			}
 		};
 		
-		xhr.open("GET", likeUrl + "?placeId=" + encodeURIComponent(placeId) + "&placeType=" + encodeURIComponent(placeType), true);
-		xhr.send(null);
+		xhr.open("POST", likeUrl, true);
+		xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		var body = "placeId=" + encodeURIComponent(placeId) + "&placeType=" + encodeURIComponent(placeType)
+		xhr.send(body);
+		
 	});
 });

@@ -165,15 +165,6 @@ public class TestPlaceMapper {
         assertThat(list).isNotEmpty();
     }
 
-    // 장소 카운팅 증가 테스트
-    @Test
-    public void testSetCounting() {
-        String placeId = "2";
-        int rows = placeDAO.setCounting(placeId);
-        log.info("[장소 카운팅 증가] 결과 행 수: {}", rows);
-        assertThat(rows).isEqualTo(1);
-    }
-
     // ID로 장소 상세 조회 테스트
     @Test
     public void testGetPlaceById() {

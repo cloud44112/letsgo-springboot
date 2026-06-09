@@ -1,5 +1,8 @@
 package com.travel.letsgospringboot.place.controller;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import com.travel.letsgospringboot.user.auth.AppUserDetails;
+
 import com.travel.letsgospringboot.place.service.PlaceService;
 import com.travel.letsgospringboot.place.vo.PlaceVO;
 import com.travel.letsgospringboot.place.vo.VisitItemVO;
@@ -8,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.servlet.http.HttpSession;
-import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -23,16 +25,25 @@ public class PlaceRestController {
             @RequestParam(value = "sortOrder", defaultValue = "distance") String sortOrder,
             @RequestParam(value = "category", required = false) String category,
             @RequestParam(value = "keyword", required = false) String keyword) {
-        String sortBy = ("like".equalsIgnoreCase(sortOrder) || "popular".equalsIgnoreCase(sortOrder)) ? "like" : "title";
+        String sortBy = ("like".equalsIgnoreCase(sortOrder) || "popular".equalsIgnoreCase(sortOrder)) ? "like"
+                : "title";
         return placeService.searchPlaces("LEISURE", category, keyword, sortBy);
     }
 
-    @GetMapping("/placeLikeAjax")
+    @PostMapping("/placeLikeAjax")
     public Map<String, Object> likePlace(
             @RequestParam("placeId") String placeId,
-            @RequestParam("placeType") String placeType) {
+            @RequestParam("placeType") String placeType,
+            @AuthenticationPrincipal AppUserDetails userDetails) {
 
         Map<String, Object> response = new HashMap<>();
+
+        if (userDetails == null) {
+            response.put("result", "fail");
+            response.put("message", "로그인이 필요합니다.");
+            return response;
+        }
+
         try {
             placeService.setPlaceLikeCount(placeId);
             int updatedCount = placeService.getPlaceLikeCount(placeType, placeId);
@@ -100,17 +111,18 @@ public class PlaceRestController {
     public ResponseEntity<Map<String, Object>> addCartToSchedule(
             @RequestParam("placeIds") String placeIdsStr,
             @RequestParam(value = "myScheduleId", required = false) String myScheduleId,
-            Principal principal,
+            @AuthenticationPrincipal AppUserDetails userDetails,
             HttpSession session) {
 
         Map<String, Object> result = new HashMap<>();
 
-        if (principal == null) {
+        if (userDetails == null) {
             result.put("ok", false);
             result.put("message", "로그인이 필요합니다.");
             return ResponseEntity.ok(result);
         }
-        String loginUser = principal.getName();
+
+        String loginUser = userDetails.getUsername();
 
         if (placeIdsStr == null || placeIdsStr.trim().isEmpty()) {
             result.put("ok", false);
@@ -140,7 +152,6 @@ public class PlaceRestController {
                     added++;
                     nextOrder++;
                 } catch (NumberFormatException nfe) {
-                    // ignore invalid place id format
                 }
             }
 
@@ -202,19 +213,14 @@ public class PlaceRestController {
             @RequestParam(value = "orderByLike", defaultValue = "false") boolean orderByLike,
             @RequestParam(value = "category", required = false) String category,
             @RequestParam(value = "keyword", required = false) String keyword) {
-        return placeService.searchNearbyPlaces(placeType, centerLat, centerLon, radiusKm, orderByLike, category, keyword);
+        return placeService.searchNearbyPlaces(placeType, centerLat, centerLon, radiusKm, orderByLike, category,
+                keyword);
     }
 
     @GetMapping("/getPlaceCountAjax")
     public int getPlaceCount(
             @RequestParam("placeType") String placeType) {
         return placeService.getPlaceCount(placeType);
-    }
-
-    @PostMapping("/setCountingAjax")
-    public int setCounting(
-            @RequestParam("placeId") String placeId) {
-        return placeService.setCounting(placeId);
     }
 
     @GetMapping("/getPlacesAjax")
