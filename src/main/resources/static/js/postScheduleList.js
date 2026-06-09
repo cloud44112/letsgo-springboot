@@ -5,7 +5,6 @@ if (searchButton)
 if (sortOrder)
     sortOrder.addEventListener("change", fetchSchedules);
 
-const userId = "user01";
 let currentFilter = "all";
 
 const navBtns = document.querySelectorAll(".nav-btn");
@@ -26,7 +25,7 @@ function fetchSchedules(){
     const keyword = document.querySelector("#keyword").value;
 
     const url = currentFilter === "user"
-        ? `/postschedule/api/mylist?userId=${userId}&sortOrder=${sortOrder}&keyword=${keyword}`
+        ? `/postschedule/api/mylist?sortOrder=${sortOrder}&keyword=${keyword}`
         : `/postschedule/api/list?sortOrder=${sortOrder}&keyword=${keyword}`;
     console.log(url);
     fetch(url, {
