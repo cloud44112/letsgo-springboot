@@ -105,29 +105,19 @@ public class PostScheduleRestController {
         return postScheduleService.getScheduleTitle(postId);
     }
 
-    @GetMapping("/{postId}/like")
-    public int getLikeCount(@PathVariable("postId") String postId) {
-        return postScheduleService.getLikeCount(postId);
-    }
-
-    @GetMapping("/{postId}/view")
-    public int getViewCount(@PathVariable("postId") String postId) {
-        return postScheduleService.getViewCount(postId);
-    }
-
     @GetMapping("/{postId}/id")
     public String getUserId(@PathVariable("postId") String postId) {
         return postScheduleService.getUserId(postId);
     }
 
     @PutMapping("/{postId}/plusLike")
-    public void plusLike(@PathVariable("postId") String postId) {
-        postScheduleService.plusLike(postId);
+    public int plusLike(@PathVariable("postId") String postId) {
+        return postScheduleService.plusLike(postId);
     }
 
     @PutMapping("/{postId}/plusView")
-    public void plusView(@PathVariable("postId") String postId) {
-        postScheduleService.plusView(postId);
+    public int plusView(@PathVariable("postId") String postId) {
+        return postScheduleService.plusView(postId);
     }
 
     @DeleteMapping("/{postId}")

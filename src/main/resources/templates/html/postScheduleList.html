@@ -3,7 +3,7 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <link rel="stylesheet" th:href="@{/css/header.css}"/>
-    <link rel="stylesheet" th:href="@{/css/myScheduleList.css}">
+    <link rel="stylesheet" th:href="@{/css/postScheduleList.css}">
     <script th:src="@{/js/postScheduleList.js}" defer></script>
     <meta charset="UTF-8"/>
 </head>
@@ -68,9 +68,8 @@
 
 
             <div class="container" id="scheduleListContainer">
-                <div th:each="postSchedule : ${list}">
-                    <figure class="figure">
-                        <div th:text="${postSchedule.title}">일정제목</div>
+                    <figure th:each="postSchedule : ${list}" class="figure">
+                        <div th:text="${postSchedule.title}" >일정제목</div>
 
                         <a th:href="@{'/postschedule' + '/detail/' + ${postSchedule.postId}}" class="box-placeholder">
                             <img th:src="${postSchedule.firstImage}" alt="일정 이미지" class="box-placeholder">
@@ -79,27 +78,23 @@
                         <figcaption class="figure-caption" th:text="${postSchedule.placeTitle}">장소명</figcaption>
 
                         <div>
-                            <button type="button" class="like-btn" data-postId="${postSchedule.postId}">
+                            <button type="button" class="like-btn" id="likeBtn" data-postId="${postSchedule.postId}">
                                 <h1>❤️</h1>
                             </button>
                             <span>좋아요 : <span class="like-Count" th:text="${postSchedule.likeCount}">0</span></span>
-                            <span>&ensp;</span>
                         </div>
-
                         <div>
                             <span>조회수 : <span th:text="${postSchedule.viewCount}">0</span></span>
                         </div>
-
                         <div>
-                	<span>📍<span th:text="${#strings.substring(postSchedule.addr1,0,10)}">
+                	        <span>📍<span th:text="${#strings.substring(postSchedule.addr1,0,10)}">
                 		주우우우소
-                        </span>
-                	</span>
+                                    </span>
+                	        </span>
                         </div>
                         <div>👤 <span th:text="${postSchedule.isAnonymous == 1 ? '익명' : postSchedule.userName}">이름</span>
                         </div>
                     </figure>
-                </div>
             </div>
         </main>
     </div>

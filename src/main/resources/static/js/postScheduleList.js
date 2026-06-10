@@ -27,7 +27,6 @@ function fetchSchedules(){
     const url = currentFilter === "user"
         ? `/postschedule/api/mylist?sortOrder=${sortOrder}&keyword=${keyword}`
         : `/postschedule/api/list?sortOrder=${sortOrder}&keyword=${keyword}`;
-    console.log(url);
     fetch(url, {
         method: "get",
         headers: {
@@ -47,7 +46,7 @@ function renderPostSchedules(postScheduleList) {
     if (!container) return;
     container.innerHTML = postScheduleList.map(postSchedule => `
                 <figure class="figure" >
-                    <div >
+                    <div>
                         ${postSchedule.title}
                     </div>
                     
@@ -61,26 +60,22 @@ function renderPostSchedules(postScheduleList) {
 
                     <div>
                         <button type="button" class="like-btn" data-postId="${postSchedule.postId}">
-                            <h1>
-                                ❤️
-                            </h1>
+                           <h1>❤️</h1>
                         </button>
-                        
-                        <span class="like-Count" >좋아요 : ${postSchedule.likeCount} </span>
+                        <span>좋아요 : <span class="like-Count">${postSchedule.likeCount}</span></span>
                     </div>
                     
                     <div>
-                        <span>조회수 ${postSchedule.viewCount} </span>
+                        <span>조회수 : ${postSchedule.viewCount} </span>
                     </div>
-
                     <div>
                 	    <span>
-                            📍 ${postSchedule.addr1.substring(0, 10)}
+                             📍${postSchedule.addr1.substring(0, 10)}
                         </span>
                     </div>
                     
                     <div>
-                        👤 ${postSchedule.isAnonymous == 1 ? '익명' : postSchedule.userName}
+                        <div>👤 ${postSchedule.isAnonymous == 1 ? '익명' : postSchedule.userName}</div>
                     </div>
                 </figure>
         `).join("");

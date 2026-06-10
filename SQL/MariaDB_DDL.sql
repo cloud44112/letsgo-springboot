@@ -81,10 +81,16 @@ CREATE TABLE schedule_post
     todo_details   TEXT,
     posted_at      DATETIME     NOT NULL,
     is_anonymous   TINYINT(1)   NOT NULL,
+    is_hidden      TINYINT(1)   NOT NULL DEFAULT 0,
     user_id        VARCHAR(50)  NOT NULL,
     CONSTRAINT pk_schedule_post PRIMARY KEY (post_id),
 #     CONSTRAINT fk_post_user FOREIGN KEY (user_id) REFERENCES users (user_id)
 ) DEFAULT CHARSET=utf8mb4;
+
+
+ALTER TABLE schedule_post
+    ADD COLUMN is_hidden TINYINT(1) NOT NULL DEFAULT 0
+AFTER is_anonymous;
 
 CREATE SEQUENCE seq_visit_item
     START WITH 1
@@ -96,7 +102,7 @@ CREATE SEQUENCE seq_visit_item
 
 CREATE TABLE visit_item
 (
-    visit_item_id    VARCHAR(50)  NOT NULL,
+    visit_item_id    BIGINT AUTO_INCREMENT NOT NULL,
     visit_order      INT          NOT NULL,
     distance_to_next DOUBLE,
     place_id         VARCHAR(50)       NOT NULL,
@@ -132,3 +138,24 @@ CREATE TABLE schedule_share_user
 ) DEFAULT CHARSET=utf8mb4;
 
 # ALTER TABLE schedule_share_user DROP FOREIGN KEY fk_share_user;
+
+
+CREATE SEQUENCE seq_report_schedule_post
+    START WITH 1
+    INCREMENT BY 1
+    MINVALUE 1
+    MAXVALUE 999999
+    CYCLE
+    CACHE 20;
+
+CREATE TABLE report_schedule_post
+(
+    report_id  BIGINT  AUTO_INCREMENT NOT NULL,
+    post_id     VARCHAR(50)  NOT NULL,
+    reporter_id VARCHAR(50)  NOT NULL,
+    reason TEXT,
+    status VARCHAR(50) NOT NULL,
+    reported_at DATETIME     NOT NULL,
+    CONSTRAINT pk_report_schedule_post PRIMARY KEY (report_id),
+    CONSTRAINT fk_report_schedule FOREIGN KEY (post_id) REFERENCES schedule_post (post_id) ON DELETE CASCADE
+) DEFAULT CHARSET=utf8mb4;

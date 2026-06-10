@@ -19,4 +19,7 @@ public class PostScheduleDetailTO {
 
     private List<RouteScheduleTO> routes;
     private List<MapScheduleTO> maps;
+
+    private String budgetDetail;
+    private String todoDetail;
 }

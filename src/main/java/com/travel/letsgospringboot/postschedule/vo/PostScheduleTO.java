@@ -13,6 +13,8 @@ public class PostScheduleTO {
     private int likeCount;
     private int viewCount;
     private int isAnonymous;
+    private int isReported;
+    private int isHidden;
     private String userName;
     private int visitItemId;
     private int visitOrder;

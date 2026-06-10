@@ -28,7 +28,6 @@ public class PostScheduleController {
 
     @GetMapping("/detail/{postId}")
     public String postScheduleDetail(@PathVariable("postId") String postId, Model model, Principal principal) {
-        postScheduleService.plusView(postId);
         model.addAttribute("detail", postScheduleService.getPostScheduleDetail(postId, principal.getName()));;
         return  "postScheduleDetail";
     }

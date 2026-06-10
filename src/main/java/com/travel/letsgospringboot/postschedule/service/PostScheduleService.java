@@ -17,8 +17,6 @@ public class PostScheduleService {
     @Autowired
     PostScheduleRepository postScheduleRepository;
 
-
-
     public List<PostScheduleTO> getPostScheduleListLike() {
         return processPostScheduleList(postScheduleRepository.getPostScheduleListLike());
     }
@@ -75,6 +73,9 @@ public class PostScheduleService {
         detail.setOwner(isOwner);
         detail.setRoutes(getScheduleRoute(postId));
         detail.setMaps(getMapSchedule(postId));
+        detail.setBudgetDetail(getBudgetDetail(postId));
+        detail.setTodoDetail(getTodoDetail(postId));
+        plusView(postId);
         return detail;
     }
 
@@ -103,11 +104,16 @@ public class PostScheduleService {
         return postScheduleRepository.getViewCount(postId);
     }
 
-    public void plusLike(String postId) {
+    @Transactional
+    public int plusLike(String postId) {
         postScheduleRepository.plusLike(postId);
+        return postScheduleRepository.getLikeCount(postId);
     }
-    public void plusView(String postId) {
+
+    @Transactional
+    public int plusView(String postId) {
         postScheduleRepository.plusView(postId);
+        return postScheduleRepository.getViewCount(postId);
     }
 
     public String getUserId(String postId) {
