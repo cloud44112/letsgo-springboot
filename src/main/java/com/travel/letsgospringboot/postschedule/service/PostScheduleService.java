@@ -150,6 +150,18 @@ public class PostScheduleService {
         }
     }
 
+    public void reportPostSchedule(String postId, String reporterId, String reason){
+        ReportPostScheduleVO reportPostScheduleVO = ReportPostScheduleVO.builder()
+                .postId(postId)
+                .reporterId(reporterId)
+                .reason(reason)
+                .status("대기중")
+                .build();
+
+        postScheduleRepository.reportPostSchedule(reportPostScheduleVO);
+
+    }
+
     public List<PostScheduleTO> processPostScheduleList(List<PostScheduleTO> list){
         Map<String, PostScheduleTO> uniqueMap = new LinkedHashMap<>();
         for (PostScheduleTO to : list) {

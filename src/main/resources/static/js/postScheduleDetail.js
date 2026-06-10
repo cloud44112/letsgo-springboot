@@ -2,6 +2,7 @@ const sortableList = document.querySelector("#sortableList");
 const contentRight = document.querySelector("#contentRight");
 const addBtn = document.querySelector("#addBtn");
 const deleteBtn = document.querySelector("#deleteBtn");
+const reportBtn = document.querySelector("#reportBtn");
 const likeBtn = document.querySelector("#likeBtn");
 const likeCountEL = document.querySelector("#likeCount");
 const sidebarLinks = document.querySelectorAll(".sidebar-link");
@@ -14,6 +15,10 @@ likeBtn.addEventListener("click", () => {
 
 deleteBtn?.addEventListener("click", () => {
     deletePostSchedule(postId)
+});
+
+reportBtn?.addEventListener("click", () => {
+    reportPostSchedule(postId);
 });
 
 addBtn.addEventListener("click", () => {
@@ -83,6 +88,27 @@ function addPostScheduleToMySchedule(postId){
     })
         .then(ok => alert(ok ? "일정이 추가되었습니다" : "일정 추가에 실패했습니다."))
         .catch(err => console.error("fetch 오류:", err));
+}
+
+function reportPostSchedule(postId) {
+    const reason = prompt("신고 사유를 입력해주세요.");
+    if (!reason || !reason.trim()) return;
+
+    fetch(`/postschedule/api/${postId}/report`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ reason: reason.trim() })
+    })
+        .then(res => {
+            if (!res.ok) {
+                throw new Error("게시물 신고 실패");
+            }
+            alert("신고가 접수되었습니다.");
+        })
+        .catch(err => {
+            console.error("fetch 오류:", err);
+            alert("신고 처리 중 오류가 발생했습니다.");
+        });
 }
 
 function calcBudgetTotal() {

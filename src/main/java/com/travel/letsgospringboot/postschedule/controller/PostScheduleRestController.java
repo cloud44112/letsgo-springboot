@@ -122,12 +122,20 @@ public class PostScheduleRestController {
 
     @DeleteMapping("/{postId}")
     public void deletePostSchedule(Principal principal, @PathVariable("postId") String postId){
-        String loingUserId = principal.getName();
-        postScheduleService.deletePostSchedule(postId, loingUserId);
+        String loginUserId = principal.getName();
+        postScheduleService.deletePostSchedule(postId, loginUserId);
     }
 
     @PutMapping("/{postId}/copy")
     public void addToMySchedule(Principal principal, @PathVariable("postId") String postId) {
         postScheduleService.addToMySchedule(postId, principal.getName());
+    }
+
+    @PostMapping("/{postId}/report")
+    public ResponseEntity<Void> reportPostSchedule(Principal principal, @PathVariable("postId") String postId, @RequestBody Map<String, String> body) {
+        postScheduleService.reportPostSchedule(postId, principal.getName(), body.get("reason")
+        );
+
+        return ResponseEntity.ok().build();
     }
 }

@@ -50,6 +50,8 @@ public interface PostScheduleRepository {
 
     void copyToMySchedule(CopyToMyScheduleVO copyToMyScheduleVO);
 
+    void reportPostSchedule(ReportPostScheduleVO reportPostScheduleVO);
+
     boolean copyToVisitItem(CopyToVisitItemVO copyToVisitItemVO);
 
 
