@@ -27,6 +27,7 @@ public class SecurityConfig {
                                 "/user/getIdView", "/user/getId",
                                 "/user/updatePwView", "/user/updatePw",
                                 "/user/api/**").permitAll()
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/user/**").authenticated()
                         .requestMatchers("/myschedule/**").authenticated()
                         .requestMatchers("/postschedule/detail/**").authenticated()
@@ -39,7 +40,15 @@ public class SecurityConfig {
                 .usernameParameter("userID")
                 .passwordParameter("password")
                 .failureUrl("/user/loginView?error=true")
-                .defaultSuccessUrl("/")
+                .successHandler((request, response, authentication) -> {
+                    boolean isAdmin = authentication.getAuthorities().stream()
+                            .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
+                    if (isAdmin) {
+                        response.sendRedirect("/admin");
+                    } else {
+                        response.sendRedirect("/");
+                    }
+                })
                 .permitAll()
         );
         return http.build();
