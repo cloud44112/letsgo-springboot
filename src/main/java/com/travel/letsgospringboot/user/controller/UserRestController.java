@@ -93,12 +93,6 @@ public class UserRestController {
             throw new IllegalArgumentException("새 비밀번호 확인이 일치하지 않습니다.");
         }
 
-        boolean updated = userService.updatePassword(UserVO.builder()
-                .userID(userId)
-                .email(email)
-                .password(newPassword)
-                .build());
-
         if (!userService.updatePassword(UserVO.builder()
                 .userID(userId)
                 .email(email)
