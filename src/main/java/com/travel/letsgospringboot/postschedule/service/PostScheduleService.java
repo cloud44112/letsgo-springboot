@@ -6,6 +6,8 @@ import com.travel.letsgospringboot.exception.PostNotFoundException;
 import com.travel.letsgospringboot.exception.AlreadyReportedException;
 import com.travel.letsgospringboot.postschedule.repository.PostScheduleRepository;
 import com.travel.letsgospringboot.postschedule.vo.*;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,10 +18,12 @@ import java.util.List;
 import java.util.Map;
 
 @Service
+@Slf4j
+@RequiredArgsConstructor
 public class PostScheduleService {
 
-    @Autowired
-    PostScheduleRepository postScheduleRepository;
+
+    private final PostScheduleRepository postScheduleRepository;
 
     public List<PostScheduleListTO> getPostScheduleListLike() {
         return processPostScheduleList(postScheduleRepository.getPostScheduleListLike());
@@ -109,13 +113,22 @@ public class PostScheduleService {
     @Transactional
     public int plusLike(String postId) {
         postScheduleRepository.plusLike(postId);
-        return postScheduleRepository.getLikeCount(postId);
+        int likeCount = postScheduleRepository.getLikeCount(postId);
+
+        log.info("게시물 좋아요 증가: postId={}, likeCount={}", postId, likeCount);
+
+        return likeCount;
+
     }
 
     @Transactional
     public int plusView(String postId) {
         postScheduleRepository.plusView(postId);
-        return postScheduleRepository.getViewCount(postId);
+        int viewCount = postScheduleRepository.getViewCount(postId);
+
+        log.info("게시물 조회수 증가: postId={}, viewCount={}", postId, viewCount);
+
+        return viewCount;
     }
 
     public String getUserId(String postId) {
@@ -124,16 +137,18 @@ public class PostScheduleService {
 
     @Transactional
     public void deletePostSchedule(String postId, String loginUserId) {
-        postScheduleRepository.deleteVisitItem(postId);
         String writerId = getUserId(postId);
 
         if (!writerId.equals(loginUserId)) {
+            log.warn("게시물 삭제 권한 위반: postId={}, loginUserId={}, writerId={}",
+                    postId, loginUserId, writerId);
             throw new AccessDeniedException("게시물 삭제 권한이 없습니다.");
         }
 
-        if(writerId.equals(loginUserId)){
-            postScheduleRepository.deleteSchedulePost(postId);
-        }
+        postScheduleRepository.deleteVisitItem(postId);
+        postScheduleRepository.deleteSchedulePost(postId);
+
+        log.info("게시물 삭제 완료: postId={}, loginUserId={}", postId, loginUserId);
     }
 
     @Transactional
@@ -155,6 +170,8 @@ public class PostScheduleService {
                     .scheduleType(route.getScheduleType())
                     .build());
         }
+        log.info("게시물 내 일정 추가 완료: postId={}, userId={}, myScheduleId={}",
+                postId, userId, copyToMyScheduleVO.getGeneratedId());
     }
 
     public void reportPostSchedule(String postId, String reporterId, String reason){
@@ -179,6 +196,8 @@ public class PostScheduleService {
                 .build();
 
         postScheduleRepository.reportPostSchedule(reportPostScheduleVO);
+
+        log.info("게시물 신고 등록 완료: postId={}, reporterId={}", postId, reporterId);
     }
 
     public List<PostScheduleListTO> processPostScheduleList(List<PostScheduleListTO> list){

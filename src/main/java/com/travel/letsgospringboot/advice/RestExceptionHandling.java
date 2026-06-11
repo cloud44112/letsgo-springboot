@@ -28,6 +28,7 @@ public class RestExceptionHandling {
 
     @ExceptionHandler(AlreadyReportedException.class)
     public ResponseEntity<String> handleAlreadyReported(AlreadyReportedException ex) {
+        log.error("중복 신고 예외: {}", ex.getMessage());
         return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
     }
 
