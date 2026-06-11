@@ -75,7 +75,6 @@ public class MyScheduleService {
                 existingVO.setPlaceTitle(combinedPlaces);
             }
         }
-        log.info(data.toString());
         List<MyScheduleVO> result = new ArrayList<>(uniqueMap.values());
         return result;
     }
@@ -101,13 +100,17 @@ public class MyScheduleService {
     public boolean setMyScheduleTitle(String title, String scheduleId, String userId) {
         if(!isScheduleOwnedByUser(scheduleId, userId))
             throw new AccessDeniedException("권한이 없습니다");
-        return myScheduleRepository.setMyScheduleTitle(title, scheduleId, userId);
+        boolean result = myScheduleRepository.setMyScheduleTitle(title, scheduleId, userId);
+        log.info("일정 제목 수정 - scheduleId={}, userId={}", scheduleId, userId);
+        return result;
     }
 
     public boolean setTodoDetail(String scheduleId, String todoDetail, String userId) {
         if(!isScheduleOwnedByUser(scheduleId, userId))
             throw new AccessDeniedException("권한이 없습니다");
-        return myScheduleRepository.setTodoDetail(scheduleId, todoDetail);
+        boolean result = myScheduleRepository.setTodoDetail(scheduleId, todoDetail);
+        log.info("일정 할일 수정 - scheduleId={}, userId={}", scheduleId, userId);
+        return result;
     }
 
     public ScheduleDetailVO getScheduleDetail(String scheduleId, String userId) {
@@ -123,7 +126,9 @@ public class MyScheduleService {
     public boolean setBudgetDetail(String scheduleId, String budgetDetail, String userId) {
         if(!isScheduleOwnedByUser(scheduleId, userId))
             throw new AccessDeniedException("권한이 없습니다");
-        return myScheduleRepository.setBudgetDetail(scheduleId, budgetDetail);
+        boolean result = myScheduleRepository.setBudgetDetail(scheduleId, budgetDetail);
+        log.info("일정 예산 수정 - scheduleId={}, userId={}", scheduleId, userId);
+        return result;
     }
 
     public String getBudgetDetail(String scheduleId) {
@@ -141,17 +146,23 @@ public class MyScheduleService {
     public boolean setStartAt(String scheduleId, String startAt, String userId) {
         if(!isScheduleOwnedByUser(scheduleId, userId))
             throw new AccessDeniedException("권한이 없습니다");
-        return myScheduleRepository.setStartAt(scheduleId, startAt, userId);
+        boolean result = myScheduleRepository.setStartAt(scheduleId, startAt, userId);
+        log.info("일정 시작일 수정 - scheduleId={}, userId={}", scheduleId, userId);
+        return result;
     }
 
     public boolean addMySchedule(String myScheduleId, String title, String userId) {
-        return myScheduleRepository.addMySchedule(myScheduleId, title, userId);
+        boolean result = myScheduleRepository.addMySchedule(myScheduleId, title, userId);
+        log.info("내 일정 추가 - userId={}, scheduleId={}, title={}", userId, myScheduleId, title);
+        return result;
     }
 
     private boolean isScheduleOwnedByUser(String scheduleId, String userId) {
-        if(myScheduleRepository.isScheduleOwnedByUser(scheduleId, userId) > 0)
-            return true;
-        return false;
+        boolean owned = myScheduleRepository.isScheduleOwnedByUser(scheduleId, userId) > 0;
+        if (!owned) {
+            log.warn("일정 접근 권한 위반 차단 - userId={}, scheduleId={}", userId, scheduleId);
+        }
+        return owned;
     }
 
     public List<ScheduleSummaryVO> listMyScheduleIdAndTitle(String userId) {
@@ -173,23 +184,31 @@ public class MyScheduleService {
     public boolean addVisitItem(int visitOrder, String placeId, String scheduleId, String userId) {
         if(!isScheduleOwnedByUser(scheduleId, userId))
             throw new AccessDeniedException("권한이 없습니다");
-        return myScheduleRepository.addVisitItem(visitOrder, placeId, scheduleId);
+        boolean result = myScheduleRepository.addVisitItem(visitOrder, placeId, scheduleId);
+        log.info("방문 항목 추가 - scheduleId={}, placeId={}, userId={}", scheduleId, placeId, userId);
+        return result;
     }
     @Transactional
     public boolean deleteVisitItemById(String visitItemId, String scheduleId, String userId) {
         if(!isScheduleOwnedByUser(scheduleId, userId))
             throw new AccessDeniedException("권한이 없습니다");
-        return myScheduleRepository.deleteVisitItemById(visitItemId);
+        boolean result = myScheduleRepository.deleteVisitItemById(visitItemId);
+        log.info("방문 항목 삭제 - scheduleId={}, visitItemId={}, userId={}", scheduleId, visitItemId, userId);
+        return result;
     }
     @Transactional
     public boolean addCompanion(String myScheduleId, String sharedUserId) {
-        return myScheduleRepository.addCompanion(myScheduleId, sharedUserId);
+        boolean result = myScheduleRepository.addCompanion(myScheduleId, sharedUserId);
+        log.info("동행자 추가 - scheduleId={}, sharedUserId={}", myScheduleId, sharedUserId);
+        return result;
     }
     @Transactional
     public boolean setCompanionPermission(String scheduleId, String sharedUserId, String permission, String userId) {
         if(!isScheduleOwnedByUser(scheduleId, userId))
             throw new AccessDeniedException("권한이 없습니다");
-        return myScheduleRepository.setCompanionPermission(scheduleId, sharedUserId, permission);
+        boolean result = myScheduleRepository.setCompanionPermission(scheduleId, sharedUserId, permission);
+        log.info("동행자 권한 수정 - scheduleId={}, sharedUserId={}, permission={}", scheduleId, sharedUserId, permission);
+        return result;
     }
     @Transactional
     public List<ColleagueVO> getCompanionList(String scheduleId, String userId) {
@@ -203,7 +222,9 @@ public class MyScheduleService {
         if(!isScheduleOwnedByUser(scheduleId, userId))
             throw new AccessDeniedException("권한이 없습니다");
         myScheduleRepository.deleteVisitItemsByScheduleId(scheduleId);
-        return myScheduleRepository.deleteScheduleById(scheduleId) > 0;
+        boolean result = myScheduleRepository.deleteScheduleById(scheduleId) > 0;
+        log.info("일정 삭제 - scheduleId={}, userId={}", scheduleId, userId);
+        return result;
     }
 
     @Transactional
@@ -215,6 +236,7 @@ public class MyScheduleService {
                 allDeleted = false;
             }
         }
+        log.info("일정 목록 삭제 - userId={}, 건수={}", userId, scheduleIds.length);
         return allDeleted;
     }
 
@@ -227,6 +249,7 @@ public class MyScheduleService {
         for (int i = 0; i < visitItemId.length; i++) {
             myScheduleRepository.updateVisitItem(visitItemId[i], visitOrder[i], distanceToNext[i]);
         }
+        log.info("일정 일괄 수정 - scheduleId={}, userId={}, 방문항목수={}", scheduleId, userId, visitItemId.length);
         return updated;
     }
 
@@ -241,6 +264,7 @@ public class MyScheduleService {
                 allUpdated = false;
             }
         }
+        log.info("방문 순서 수정 - scheduleId={}, userId={}, 건수={}", scheduleId, userId, orders.size());
         return allUpdated;
     }
 
@@ -258,6 +282,8 @@ public class MyScheduleService {
             throw new AccessDeniedException("권한이 없습니다");
         myScheduleRepository.shareToPostInsert(scheduleId, userId, isAnonymous);
         myScheduleRepository.shareVisitItemsToPost(scheduleId);
-        return myScheduleRepository.getLastPostId();
+        String postId = myScheduleRepository.getLastPostId();
+        log.info("일정 게시판 공유 - scheduleId={}, userId={}, postId={}", scheduleId, userId, postId);
+        return postId;
     }
 }
