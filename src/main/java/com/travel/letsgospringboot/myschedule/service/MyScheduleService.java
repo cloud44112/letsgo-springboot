@@ -1,6 +1,6 @@
 package com.travel.letsgospringboot.myschedule.service;
 
-import com.travel.letsgospringboot.myschedule.exception.ScheduleAccessDeniedException;
+import com.travel.letsgospringboot.exception.ScheduleAccessDeniedException;
 import com.travel.letsgospringboot.myschedule.repository.MyScheduleRepository;
 import com.travel.letsgospringboot.myschedule.vo.*;
 import lombok.RequiredArgsConstructor;

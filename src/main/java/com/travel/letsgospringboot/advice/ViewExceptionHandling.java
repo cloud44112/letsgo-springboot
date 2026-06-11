@@ -1,7 +1,6 @@
 package com.travel.letsgospringboot.advice;
 
-import com.travel.letsgospringboot.myschedule.controller.MyScheduleController;
-import com.travel.letsgospringboot.myschedule.exception.ScheduleAccessDeniedException;
+import com.travel.letsgospringboot.exception.ScheduleAccessDeniedException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;

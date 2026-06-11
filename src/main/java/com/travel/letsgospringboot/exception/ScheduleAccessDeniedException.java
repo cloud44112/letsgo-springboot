@@ -1,4 +1,4 @@
-package com.travel.letsgospringboot.myschedule.exception;
+package com.travel.letsgospringboot.exception;
 
 
 public class ScheduleAccessDeniedException extends RuntimeException {
