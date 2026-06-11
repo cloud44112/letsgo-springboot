@@ -12,7 +12,8 @@ document.getElementById("signupForm").onsubmit = function (event) {
     message.innerText = "";
     message.style.color = "red";
 
-    if (name.trim() == "" || userId.trim() == "" || email.trim() == "" || password.trim() == "" || passwordConfirm.trim() == "") {
+    if (name.trim() == "" || userId.trim() == "" || email.trim() == ""
+        || password.trim() == "" || passwordConfirm.trim() == "") {
         message.style.display = "block";
         message.innerText = "필수 항목을 모두 입력해주세요.";
         return;
@@ -24,43 +25,25 @@ document.getElementById("signupForm").onsubmit = function (event) {
         return;
     }
 
-    var xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState != 4) {
-            return;
-        }
-        if (xhr.status != 200) {
+    fetch("/user/api/signUpAjax", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: "name=" + encodeURIComponent(name)
+            + "&userID=" + encodeURIComponent(userId)
+            + "&email=" + encodeURIComponent(email)
+            + "&password=" + encodeURIComponent(password)
+            + "&passwordConfirm=" + encodeURIComponent(passwordConfirm)
+    }).then(response => response.json())
+        .then(data => {
             message.style.display = "block";
-            message.innerText = "회원가입을 다시해주세요.";
-            return;
-        }
-
-        var data;
-        try {
-            data = JSON.parse(xhr.responseText);
-        } catch (e) {
-            message.style.display = "block";
-            message.innerText = "회원가입 오류.";
-            return;
-        }
+            message.innerText = data.message;
+            if (data.result == "success") {
+                message.style.color = "black";
+                setTimeout(() => { location.href = data.url; }, 700);
+            }
+        }).catch(error => {
+        console.error("signup error", error);
         message.style.display = "block";
-        message.innerText = data.message;
-
-        if (data.result == "success") {
-            message.style.color = "black";
-            setTimeout(function () {
-                location.href = data.url;
-            }, 700);
-        } else {
-            message.style.color = "red";
-        }
-    };
-
-    xhr.open("POST", "/user/api/signUpAjax", true);
-    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    xhr.send("name=" + encodeURIComponent(name)
-        + "&userID=" + encodeURIComponent(userId)
-        + "&email=" + encodeURIComponent(email)
-        + "&password=" + encodeURIComponent(password)
-        + "&passwordConfirm=" + encodeURIComponent(passwordConfirm));
+        message.innerText = "회원가입 오류.";
+    });
 };

@@ -11,7 +11,8 @@ document.getElementById("updatePwForm").onsubmit = function (event) {
     message.innerText = "";
     message.style.color = "red";
 
-    if (userId.trim() == "" || email.trim() == "" || newPassword.trim() == "" || newPasswordConfirm.trim() == "") {
+    if (userId.trim() == "" || email.trim() == ""
+        || newPassword.trim() == "" || newPasswordConfirm.trim() == "") {
         message.style.display = "block";
         message.innerText = "필수 항목을 모두 입력해주세요.";
         return;
@@ -23,42 +24,24 @@ document.getElementById("updatePwForm").onsubmit = function (event) {
         return;
     }
 
-    var xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState != 4) {
-            return;
-        }
-        if (xhr.status != 200) {
+    fetch("/user/api/updatePwAjax", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: "userID=" + encodeURIComponent(userId)
+            + "&email=" + encodeURIComponent(email)
+            + "&password=" + encodeURIComponent(newPassword)
+            + "&passwordConfirm=" + encodeURIComponent(newPasswordConfirm)
+    }).then(response => response.json())
+        .then(data => {
             message.style.display = "block";
-            message.innerText = "비밀번호 변경을 다시해주세요.";
-            return;
-        }
-
-        var data;
-        try {
-            data = JSON.parse(xhr.responseText);
-        } catch (e) {
-            message.style.display = "block";
-            message.innerText = "비밀번호 변경 오류.";
-            return;
-        }
+            message.innerText = data.message;
+            if (data.result == "success") {
+                message.style.color = "black";
+                setTimeout(() => { location.href = data.url; }, 700);
+            }
+        }).catch(error => {
+        console.error("updatepw error", error);
         message.style.display = "block";
-        message.innerText = data.message;
-
-        if (data.result == "success") {
-            message.style.color = "black";
-            setTimeout(function () {
-                location.href = data.url;
-            }, 700);
-        } else {
-            message.style.color = "red";
-        }
-    };
-
-    xhr.open("POST", "/user/api/updatePwAjax", true);
-    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    xhr.send("userID=" + encodeURIComponent(userId)
-        + "&email=" + encodeURIComponent(email)
-        + "&password=" + encodeURIComponent(newPassword)
-        + "&passwordConfirm=" + encodeURIComponent(newPasswordConfirm));
+        message.innerText = "비밀번호 변경 오류.";
+    });
 };
