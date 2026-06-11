@@ -1,5 +1,6 @@
 package com.travel.letsgospringboot.postschedule.service;
 
+import com.travel.letsgospringboot.exception.PostNotFoundException;
 import com.travel.letsgospringboot.postschedule.repository.PostScheduleRepository;
 import com.travel.letsgospringboot.postschedule.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,15 +68,20 @@ public class PostScheduleService {
         return processPostScheduleList(postScheduleRepository.getUserPostScheduleListSearchLatest(new PostScheduleSearchConditionVO(userId, keyword)));
     }
 
-    public PostScheduleDetailTO getPostScheduleDetail(String postId, String loingUserId) {
+    public PostScheduleDetailTO getPostScheduleDetail(String postId, String loginUserId) {
         PostScheduleDetailTO detail = postScheduleRepository.getPostScheduleDetail(postId);
-        boolean isOwner = loingUserId.equals(detail.getWriterId());
+        if(detail == null || detail.getIsHidden() == 1)
+            throw new PostNotFoundException("존재하지않는 게시물입니다.");
+
+        boolean isOwner = loginUserId.equals(detail.getWriterId());
+
         detail.setOwner(isOwner);
-        detail.setRoutes(getScheduleRoute(postId));
-        detail.setMaps(getMapSchedule(postId));
-        detail.setBudgetDetail(getBudgetDetail(postId));
-        detail.setTodoDetail(getTodoDetail(postId));
-        plusView(postId);
+        detail.setRoutes(postScheduleRepository.getScheduleRoute(postId));
+        detail.setMaps(postScheduleRepository.getMapSchedule(postId));
+        detail.setBudgetDetail(postScheduleRepository.getBudgetDetail(postId));
+        detail.setTodoDetail(postScheduleRepository.getTodoDetail(postId));
+        postScheduleRepository.plusView(postId);
+
         return detail;
     }
 
@@ -127,6 +133,8 @@ public class PostScheduleService {
         if(writerId.equals(loingUserId)){
             postScheduleRepository.deleteSchedulePost(postId);
         }
+
+        
     }
 
     @Transactional

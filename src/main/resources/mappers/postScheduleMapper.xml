@@ -42,6 +42,7 @@
         <result property="likeCount"     column="LIKE_COUNT"/>
         <result property="viewCount"     column="VIEW_COUNT"/>
         <result property="writerId"      column="WRITER_ID"/>
+        <result property="isHidden"      column="IS_HIDDEN"/>
     </resultMap>
 
 
@@ -222,7 +223,8 @@
             TITLE AS SCHEDULE_TITLE,
             LIKE_COUNT,
             VIEW_COUNT,
-            USER_ID AS WRITER_ID
+            USER_ID AS WRITER_ID,
+            IS_HIDDEN
         FROM schedule_post
         WHERE POST_ID = #{postId}
     </select>
