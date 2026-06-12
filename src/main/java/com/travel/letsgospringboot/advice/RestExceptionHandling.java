@@ -50,12 +50,12 @@ public class RestExceptionHandling {
 
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<Map<String, Object>> handleAccessDenied(AccessDeniedException ex) {
-        log.warn("권한 위반 차단: {}", ex.getMessage());
+        log.error("권한 위반 차단: {}", ex.getMessage());
         return buildErrorResponse(HttpStatus.FORBIDDEN, ex.getMessage());
     }
 
     @ExceptionHandler(PostNotFoundException.class)
-    public ResponseEntity<Map<String, Object>> PostNotFoundException(PostNotFoundException ex) {
+    public ResponseEntity<Map<String, Object>> handlePostNotFoundException(PostNotFoundException ex) {
         log.error("게시글 없음: {}", ex.getMessage());
         return buildErrorResponse(HttpStatus.NOT_FOUND, ex.getMessage());
     }
