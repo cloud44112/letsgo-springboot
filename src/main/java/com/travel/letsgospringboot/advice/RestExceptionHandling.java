@@ -1,14 +1,6 @@
 package com.travel.letsgospringboot.advice;
 
-import com.travel.letsgospringboot.exception.AccessDeniedException;
-import com.travel.letsgospringboot.exception.DuplicateUserIdException;
-import com.travel.letsgospringboot.exception.InvalidInputException;
-import com.travel.letsgospringboot.exception.UserNotFoundException;
-import com.travel.letsgospringboot.exception.PostNotFoundException;
-import com.travel.letsgospringboot.exception.PlaceOperationException;
-import com.travel.letsgospringboot.exception.PostOperationException;
-import com.travel.letsgospringboot.exception.ReportNotFoundException;
-import com.travel.letsgospringboot.exception.ReportOperationException;
+import com.travel.letsgospringboot.exception.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -58,6 +50,12 @@ public class RestExceptionHandling {
     public ResponseEntity<Map<String, Object>> handlePostNotFoundException(PostNotFoundException ex) {
         log.error("게시글 없음: {}", ex.getMessage());
         return buildErrorResponse(HttpStatus.NOT_FOUND, ex.getMessage());
+    }
+
+    @ExceptionHandler(AlreadyReportedException.class)
+    public ResponseEntity<Map<String, Object>> handleAlreadyReported(AlreadyReportedException ex) {
+        log.error("중복 신고 예외: {}", ex.getMessage());
+        return buildErrorResponse(HttpStatus.CONFLICT, ex.getMessage());
     }
 
     @ExceptionHandler(ReportNotFoundException.class)
