@@ -51,11 +51,6 @@ aside.sidebar li {
     margin: 0;
 }
 
-aside.sidebar > div:first-child {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
 
 aside.sidebar ul + div {
     margin-top: auto;
@@ -72,13 +67,7 @@ aside.sidebar a {
     color: inherit;
 }
 
-aside.sidebar button a {
-    display: block;
-    width: 100%;
-    text-decoration: none;
-    color: inherit;
-    text-align: center;
-}
+
 
 aside.sidebar button {
     box-sizing: border-box;
@@ -119,10 +108,7 @@ aside.sidebar .share-btn:hover {
     background: #fff5eb;
 }
 
-aside.sidebar #deleteBtn {
-    border-color: #cc6666;
-    color: #993333;
-}
+
 
 aside.sidebar #deleteBtn:hover {
     background: #fff0f0;
@@ -131,16 +117,6 @@ aside.sidebar #deleteBtn:hover {
 aside.sidebar .nav-btn.active {
     background: #ff7a00;
     color: #111;
-}
-
-.main-content {
-    flex: 1 1 auto;
-    min-width: 0;
-    min-height: 0;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
 }
 
 .layout-wrapper > main {
@@ -186,10 +162,6 @@ aside.sidebar .nav-btn.active {
     box-sizing: border-box;
 }
 
-.divider {
-    width: 1px;
-    background-color: rgba(255, 122, 0, 0.2);
-}
 
 .search-area {
     display: flex;
@@ -235,24 +207,6 @@ aside.sidebar .nav-btn.active {
     font-weight: 700;
 }
 
-#sortableList {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    border: 1px solid #ddd;
-    border-radius: 12px;
-    max-width: 300px;
-    overflow: hidden;
-    background: #fff;
-}
-
-.sortable-item {
-    padding: 10px 15px;
-    border-bottom: 1px solid #eee;
-    background-color: #fafafa;
-    cursor: grab;
-    user-select: none;
-}
 
 .sortable-item:last-child {
     border-bottom: none;
@@ -270,13 +224,6 @@ aside.sidebar .nav-btn.active {
     min-width: 120px;
 }
 
-.content-right {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    height: 100%;
-    box-sizing: border-box;
-}
 
 .content-right-top,
 .content-right-bottom {
