@@ -42,7 +42,7 @@
     <div class="layout-wrapper">
         <aside class="sidebar">
             <ul>
-                <li><button type="button" class="nav-btn" data-filter="all">전체 게시물</button></li>
+                <li><button type="button" class="nav-btn active" data-filter="all">전체 게시물</button></li>
                 <li><button type="button" class="nav-btn" data-filter="user">내가 올린 게시물</button></li>
             </ul>
         </aside>
@@ -78,7 +78,7 @@
                         <figcaption class="figure-caption" th:text="${postSchedule.placeTitle}">장소명</figcaption>
 
                         <div>
-                            <button type="button" class="like-btn"  data-postId="${postSchedule.postId}">
+                            <button type="button" class="like-btn" th:data-post-id="${postSchedule.postId}">
                                 <h1>❤️</h1>
                             </button>
                             <span>좋아요 : <span class="like-Count" th:text="${postSchedule.likeCount}">0</span></span>
@@ -96,6 +96,7 @@
                         </div>
                     </figure>
             </div>
+            <div id="pagination" class="pagination"></div>
         </main>
     </div>
 </body>
