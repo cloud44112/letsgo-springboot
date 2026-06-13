@@ -14,7 +14,7 @@ body {
     display: flex;
     flex-direction: row;
     flex: 1 1 auto;
-    min-height: calc(100vh - 60px);
+    min-height: calc(100vh - 153px);
     width: 100%;
     box-sizing: border-box;
     align-items: stretch;
@@ -27,10 +27,12 @@ aside.sidebar {
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start;
     gap: 12px;
-    min-height: 0;
-    overflow-y: auto;
+    height: calc(100vh - 153px);
+    position: sticky;
+    top: 0;
+    overflow-y: hidden;
     padding: 14px 12px;
     background: #fff;
     border-right: 1px solid #e5ddd0;
@@ -95,6 +97,25 @@ aside.sidebar button {
 }
 
 aside.sidebar button:hover {
+    background: #fff5eb;
+}
+
+aside.sidebar .share-btn {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 9px 10px;
+    border: 1px solid #ff7a00;
+    border-radius: 8px;
+    background: #fff;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    font-family: inherit;
+    color: #222;
+    text-align: center;
+    text-decoration: none;
+}
+
+aside.sidebar .share-btn:hover {
     background: #fff5eb;
 }
 
