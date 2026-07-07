@@ -34,6 +34,10 @@ LetsGo는 사용자가 여행 목적지(숙소, 음식점, 레저 등)를 탐색
 * **배치 수집**: Tour API를 호출하여 숙소, 레저, 음식점 공공 데이터를 시스템에 수동/배치 임포트.
 
 ---
+## 🏗️ 아키텍처 (Architecture)
+<img width="1069" height="678" alt="image" src="https://github.com/user-attachments/assets/ab533e12-43f7-4966-af2a-38cec6d47187" />
+
+---
 
 ## 🛠️ 기술 스택 (Tech Stack)
 
